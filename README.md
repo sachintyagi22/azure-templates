@@ -23,3 +23,6 @@ The `Deploy to Azure` button does not work on Gitlab due to this [issue](https:/
 7. Launch VMs in the VNet.
 8. Create a bastion host in the public subnet to connect to the VMs in the VNet.
 9. Install dataguard services on the VMs.
+
+Check: [SO](https://stackoverflow.com/questions/63478559/how-to-deploy-arm-template-with-user-managed-identity-and-assign-a-subscription)
+
