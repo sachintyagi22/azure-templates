@@ -16,7 +16,7 @@
         }
     },
     "variables": {
-        "bootstrapRoleAssignmentId": "[guid(concat(resourceGroup().id, 'contributor'))]",
+        "bootstrapRoleAssignmentId": "[guid(concat('/subscriptions/', parameters('subscriptionId'), 'contributor'))]",
         "contributorForSubRoleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
         "readerForRootMgmtRoleDefId": "[concat('/', '/providers/Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
         "subscriptionScope": "[concat('/subscriptions/', parameters('subscriptionId'))]"
