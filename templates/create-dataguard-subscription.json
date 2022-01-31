@@ -51,7 +51,7 @@
         {
             "type": "Microsoft.Resources/deploymentScripts",
             "apiVersion": "2020-10-01",
-            "name": "createAddCertificate",
+            "name": "fetchInvSecList",
             "location": "[resourceGroup().location]",
             "identity": {
                 "type": "UserAssigned",
