@@ -118,7 +118,7 @@
                          "value": "[parameters('location')]"   
                     },
                     "resourceGroupName": {
-                        "resourceGroupName": "[parameters('resourceGroupName')]"
+                        "value": "[parameters('resourceGroupName')]"
                     }
                 },
                 "templateLink": {
