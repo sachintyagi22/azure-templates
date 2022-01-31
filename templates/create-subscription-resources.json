@@ -2,13 +2,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "0.4.451.19169",
-      "templateHash": "12209291292482475033"
-    }
-  },
   "parameters": {
     "enrollmentAccount": {
       "type": "string",

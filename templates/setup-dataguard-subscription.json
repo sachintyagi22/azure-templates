@@ -114,11 +114,5 @@
                 "[format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('subscriptionAlias')))]"
             ]
         }
-    ],
-    "outputs": {
-        "subscriptionId": {
-            "type": "string",
-            "value": "[reference(parameters('subscriptionAlias')).subscriptionId]"
-        }
-    }
+    ]
 }
