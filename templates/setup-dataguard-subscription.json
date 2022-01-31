@@ -1,0 +1,124 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "identityName": {
+            "type": "string",
+            "metadata": {
+                "description": "Specifies the name of the user-assigned managed identity used for dataguard."
+            }
+        },
+        "billingAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Billing account name under which subscription is to be created."
+            }
+        },
+        "billingProfileName": {
+            "type": "string",
+            "metadata": {
+                "description": "Billing profile name under which subscription is to be created."
+            }
+        },
+        "invoiceSectionName": {
+            "type": "string",
+            "metadata": {
+                "description": "Invoice section name under which subscription is to be created."
+            }
+        },
+        "subscriptionAlias": {
+            "type": "string",
+            "metadata": {
+                "description": "Alias to assign to the subscription"
+            }
+        },
+        "subscriptionDisplayName": {
+            "type": "string",
+            "metadata": {
+                "description": "Display name for the subscription"
+            }
+        },
+        "subscriptionWorkload": {
+            "type": "string",
+            "defaultValue": "Production",
+            "allowedValues": [
+                "Production",
+                "DevTest"
+            ],
+            "metadata": {
+                "description": "Workload type for the subscription"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[format('create-{0}', parameters('subscriptionAlias'))]",
+            "location": "[deployment().location]",
+            "properties": {
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                    "billingAccountName": {
+                        "value": "[parameters('billingAccountName')]"
+                    },
+                    "billingProfileName": {
+                        "value": "[parameters('billingProfileName')]"
+                    },
+                    "invoiceSectionName": {
+                        "value": "[parameters('invoiceSectionName')]"
+                    },
+                    "subscriptionAlias": {
+                        "value": "[parameters('subscriptionAlias')]"
+                    },
+                    "subscriptionDisplayName": {
+                        "value": "[parameters('subscriptionDisplayName')]"
+                    },
+                    "subscriptionWorkload": {
+                        "value": "[parameters('subscriptionWorkload')]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-subscription.json",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "[format('create-{0}', parameters('subscriptionAlias'))]",
+            "location": "[deployment().location]",
+            "properties": {
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                    "identityName": {
+                        "value": "[parameters('identityName')]"
+                    },
+                    "subscriptionId": {
+                        "value": "[reference(format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-identity.json",
+                    "contentVersion": "1.0.0.0"
+                }
+            },
+            "dependsOn": [
+                "[format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('subscriptionAlias')))]"
+            ]
+        },
+    ],
+    "outputs": {
+        "subscriptionId": {
+            "type": "string",
+            "value": "[reference(parameters('subscriptionAlias')).subscriptionId]"
+        }
+    }
+}

@@ -1,16 +1,31 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "metadata": {
+        "_generator": {
+        "name": "bicep",
+        "version": "0.4.451.19169",
+        "templateHash": "11044401809782387845"
+        }
+    },
     "parameters": {
-        "identityName": {
+        "billingAccountName": {
             "type": "string",
             "metadata": {
-                "description": "Specifies the name of the user-assigned managed identity."
+                "description": "Billing Account Name used for subscription billing"
             }
         },
-        "invoiceSection": {
+        "billingProfileName": {
             "type": "string",
-            "allowedValues": "[reference('fetchInvSecList').outputs.invoiceSections]"
+            "metadata": {
+                "description": "Billing Profile Name used for subscription billing"
+            }
+        },
+        "invoiceSectionName" : {
+            "type": "string",
+            "metadata": {
+                "description": "Invoice section Name used for subscription billing"
+            }
         },
         "subscriptionAlias": {
             "type": "string",
@@ -26,53 +41,29 @@
         },
         "subscriptionWorkload": {
             "type": "string",
-            "defaultValue": "Production",
-            "allowedValues": [
-                "Production",
-                "DevTest"
-            ],
             "metadata": {
                 "description": "Workload type for the subscription"
             }
         }
     },
+    "functions": [],
     "resources": [
         {
-            "scope": "/",
             "type": "Microsoft.Subscription/aliases",
             "apiVersion": "2020-09-01",
+            "scope": "/",
             "name": "[parameters('subscriptionAlias')]",
             "properties": {
                 "workload": "[parameters('subscriptionWorkload')]",
                 "displayName": "[parameters('subscriptionDisplayName')]",
-                "billingScope": "[parameters('invoiceSection')]"
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deploymentScripts",
-            "apiVersion": "2020-10-01",
-            "name": "fetchInvSecList",
-            "location": "[resourceGroup().location]",
-            "identity": {
-                "type": "UserAssigned",
-                "userAssignedIdentities": {
-                "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]": {}
-                }
-            },
-            "kind": "AzurePowerShell",
-            "properties": {
-                "azPowerShellVersion": "3.0",
-                "primaryScriptUri":"https://gitlab.com/sachintyagi22/azure-templates/-/raw/1ddca2c171ed830a5c19008c403aee404ead16c4/scripts/fetch-billing-accounts.ps1", 
-                "timeout": "PT30M",
-                "cleanupPreference": "OnSuccess",
-                "retentionInterval": "P1D"
+                "billingScope": "[tenantResourceId('Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections', parameters('billingAccountName'), parameters('billingProfileName'), parameters('invoiceSectionName'))]"
             }
         }
     ],
     "outputs": {
         "subscriptionId": {
             "type": "string",
-            "value": "[reference(parameters('subscriptionAlias')).subscriptionId]"
+            "value": "[reference(tenantResourceId('Microsoft.Subscription/aliases', parameters('subscriptionAlias'))).subscriptionId]"
         }
     }
 }
