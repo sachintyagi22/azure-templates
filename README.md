@@ -2,11 +2,14 @@
 
 Azure deployment templates to bring up and configure the client Azure environment for dataguard.
 
+
+
+
 ## Steps: 
 0. Create a user managed identity called "dataguard-identity" (Manual).
     * Assign it the RBAC permissions for AD tenant Graph.
     * Assign it the reader role at the root tenant group.
-1. Create a new dataguard subscription.
+1. Create a new dataguard subscription. [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgitlab.com%2Fsachintyagi22%2Fazure-templates%2F-%2Fraw%2F1ddca2c171ed830a5c19008c403aee404ead16c4%2Ftemplates%2Fcreate-dataguard-subscription.json)
 2. Create a managed identity and 
     * Assign it RBAC permissions for the AD tenant graph
     * Subscription contributor role on the data guard subscription

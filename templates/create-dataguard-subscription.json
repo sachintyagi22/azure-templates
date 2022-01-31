@@ -62,6 +62,7 @@
             "kind": "AzurePowerShell",
             "properties": {
                 "azPowerShellVersion": "3.0",
+                "primaryScriptUri":"https://gitlab.com/sachintyagi22/azure-templates/-/raw/1ddca2c171ed830a5c19008c403aee404ead16c4/scripts/fetch-billing-accounts.ps1", 
                 "timeout": "PT30M",
                 "cleanupPreference": "OnSuccess",
                 "retentionInterval": "P1D"
