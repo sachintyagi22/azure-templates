@@ -23,6 +23,7 @@ foreach ($ba in $billingAccounts) {
     $invoiceSectionsArray = @()
     foreach($section in $invoiceSections){
         $invoiceSectionsArray += $($section.invoiceSectionId)
+        Write-Host "Invoice section: $($section)"
     }
     $DeploymentScriptOutputs['invoiceSections'] = $invoiceSectionsArray
 }

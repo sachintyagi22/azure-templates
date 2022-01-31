@@ -4,11 +4,13 @@ Azure deployment templates to bring up and configure the client Azure environmen
 
 Note: Useful [link](https://techcommunity.microsoft.com/t5/azure-governance-and-management/creating-subscriptions-with-arm-templates/ba-p/1839961)
 
+Preequisite: Follow the steps here to grant the deploying user access at root management level. [Link](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md)
+
 The `Deploy to Azure` button does not work on Gitlab due to this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/16732).
 
 
 ## Steps:
-1. Create a new dataguard subscription. [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fcreate-dataguard-subscription.json)
+1. Create a new dataguard subscription. [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 2. Create a managed identity and 
     * Assign it RBAC permissions for the AD tenant graph
     * Subscription contributor role on the data guard subscription
