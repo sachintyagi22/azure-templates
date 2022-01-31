@@ -54,7 +54,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "[format('create-{0}', parameters('subscriptionAlias'))]",
+            "name": "[format('setup-{0}', parameters('subscriptionAlias'))]",
             "location": "[deployment().location]",
             "properties": {
                 "expressionEvaluationOptions": {
@@ -90,7 +90,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
-            "name": "[format('create-{0}', parameters('subscriptionAlias'))]",
+            "name": "[format('setup-{0}', parameters('identityName'))]",
             "location": "[deployment().location]",
             "properties": {
                 "expressionEvaluationOptions": {
@@ -102,7 +102,7 @@
                         "value": "[parameters('identityName')]"
                     },
                     "subscriptionId": {
-                        "value": "[reference(format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+                        "value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
                     }
                 },
                 "templateLink": {
@@ -111,7 +111,7 @@
                 }
             },
             "dependsOn": [
-                "[format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('subscriptionAlias')))]"
+                "[format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias')))]"
             ]
         }
     ]
