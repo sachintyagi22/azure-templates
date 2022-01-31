@@ -16,8 +16,9 @@
         }
     },
     "variables": {
-        "bootstrapRoleAssignmentId": "[guid(concat('/subscriptions/', parameters('subscriptionId'), 'contributor'))]",
+        "contributorRoleAssignmentId": "[guid(concat('/subscriptions/', parameters('subscriptionId'), 'contributor'))]",
         "contributorForSubRoleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+        "readerRoleAssignmentId": "[guid(concat('/', 'reader'))]",
         "readerForRootMgmtRoleDefId": "[concat('/', '/providers/Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
         "subscriptionScope": "[concat('/subscriptions/', parameters('subscriptionId'))]"
     },
@@ -30,7 +31,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2020-10-01-preview",
-            "name": "[variables('bootstrapRoleAssignmentId')]",
+            "name": "[variables('contributorRoleAssignmentId')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
             ],
@@ -44,7 +45,7 @@
         {
             "type": "Microsoft.Authorization/roleAssignments",
             "apiVersion": "2020-10-01-preview",
-            "name": "[variables('bootstrapRoleAssignmentId')]",
+            "name": "[variables('readerRoleAssignmentId')]",
             "dependsOn": [
                 "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName'))]"
             ],
