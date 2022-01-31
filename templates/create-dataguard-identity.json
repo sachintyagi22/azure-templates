@@ -13,6 +13,12 @@
             "metadata": {
                 "description": "Subscription id for which to assign contributor role to the identity."
             }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Default dataguard resourse group to which to deploy resources."
+            }
         }
     },
     "variables": {
@@ -26,7 +32,8 @@
         {
             "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
             "apiVersion": "2018-11-30",
-            "name": "[parameters('identityName')]"
+            "name": "[parameters('identityName')]",
+            "location": "[parameters('location')]"
         },
         {
             "type": "Microsoft.Authorization/roleAssignments",

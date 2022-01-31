@@ -48,6 +48,13 @@
             "metadata": {
                 "description": "Workload type for the subscription"
             }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[deployment().location]",
+            "metadata": {
+                "description": "The Azure location where the managed identity should be created."
+            }
         }
     },
     "resources": [
@@ -103,6 +110,9 @@
                     },
                     "subscriptionId": {
                         "value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+                    }, 
+                    "location": {
+                         "value": "[parameters('location')]"   
                     }
                 },
                 "templateLink": {
