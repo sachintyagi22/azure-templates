@@ -49,9 +49,15 @@
                 "description": "Workload type for the subscription"
             }
         },
+        "resourceGroupName": {
+            "type": "string",
+            "defaultValue": "dataguard-resource-grp",
+            "metadata": {
+                "description": "Resource group name for dataguard."
+            }
+        },
         "location": {
             "type": "string",
-            "defaultValue": "[deployment().location]",
             "metadata": {
                 "description": "The Azure location where the managed identity should be created."
             }
@@ -97,6 +103,36 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
+            "name": "[format('create-{0}', parameters('resourceGroupName'))]",
+            "location": "[deployment().location]",
+            "properties": {
+                "expressionEvaluationOptions": {
+                    "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                    "subscriptionId": {
+                        "value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+                    }, 
+                    "location": {
+                         "value": "[parameters('location')]"   
+                    },
+                    "resourceGroupName": {
+                        "resourceGroupName": "[parameters('resourceGroupName')]"
+                    }
+                },
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-resource-group.json",
+                    "contentVersion": "1.0.0.0"
+                }
+            },
+            "dependsOn": [
+                "[format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias')))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
             "name": "[format('setup-{0}', parameters('identityName'))]",
             "location": "[deployment().location]",
             "properties": {
@@ -113,6 +149,9 @@
                     }, 
                     "location": {
                          "value": "[parameters('location')]"   
+                    },
+                    "resourceGroupName": {
+                        "resourceGroupName": "[parameters('resourceGroupName')]"
                     }
                 },
                 "templateLink": {
@@ -121,7 +160,7 @@
                 }
             },
             "dependsOn": [
-                "[format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias')))]"
+                "[format('Microsoft.Resources/deployments/{0}', format('create-{0}', parameters('resourceGroupName')))]"
             ]
         }
     ]
