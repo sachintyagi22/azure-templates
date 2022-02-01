@@ -3,7 +3,7 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"settingName": {
-            "default": "dg-diagnostic-settings",
+            "defaultValue": "dg-diagnostic-settings",
 			"type": "String"
 		},
 		"storageAccountId": {

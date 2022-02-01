@@ -82,7 +82,8 @@
 		"nestedCreateStorageAccountPvtEpDeployment": "nested-Create-Storage-Account-pvt-ep-Deployment",
 		"nestedCreateActivityLogDiagSettingDeployment": "nested-Create-ActivityLog-DiagSetting-Deployment"
 	},
-	"resources": [{
+	"resources": [
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('setupSubscriptionDeployment')]",
@@ -750,6 +751,9 @@
 							"parameters": {
 								"storageAccountId": {
 									"value": "[parameters('storageAccountId')]"
+								},
+								"settingName": {
+									"value": "dg-diagnostic-settings"
 								}
 							},
 							"templateLink": {
