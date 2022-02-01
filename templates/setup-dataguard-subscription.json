@@ -4,42 +4,42 @@
 	"parameters": {
 		"identityName": {
 			"type": "string",
-            "defaultValue": "template-created-dg-id",
+			"defaultValue": "template-created-dg-id",
 			"metadata": {
 				"description": "Specifies the name of the user-assigned managed identity used for dataguard."
 			}
 		},
 		"billingAccountName": {
 			"type": "string",
-            "defaultValue": "a685f040-47fe-5e3f-2992-5ae889ed21c4:2f596f4c-568b-4b84-9818-ea9d2f94395a_2019-05-31",
+			"defaultValue": "a685f040-47fe-5e3f-2992-5ae889ed21c4:2f596f4c-568b-4b84-9818-ea9d2f94395a_2019-05-31",
 			"metadata": {
 				"description": "Billing account name under which subscription is to be created."
 			}
 		},
 		"billingProfileName": {
 			"type": "string",
-            "defaultValue": "YAFH-TNXC-BG7-PGB",
+			"defaultValue": "YAFH-TNXC-BG7-PGB",
 			"metadata": {
 				"description": "Billing profile name under which subscription is to be created."
 			}
 		},
 		"invoiceSectionName": {
 			"type": "string",
-            "defaultValue": "IWAI-T3SI-PJA-PGB",
+			"defaultValue": "IWAI-T3SI-PJA-PGB",
 			"metadata": {
 				"description": "Invoice section name under which subscription is to be created."
 			}
 		},
 		"subscriptionAlias": {
 			"type": "string",
-            "defaultValue": "temp-dg-sub",
+			"defaultValue": "temp-dg-sub",
 			"metadata": {
 				"description": "Alias to assign to the subscription"
 			}
 		},
 		"subscriptionDisplayName": {
 			"type": "string",
-            "defaultValue": "Template Created DG Subscription",
+			"defaultValue": "Template Created DG Subscription",
 			"metadata": {
 				"description": "Display name for the subscription"
 			}
@@ -64,7 +64,7 @@
 		},
 		"location": {
 			"type": "string",
-            "defaultValue": "EastUs",
+			"defaultValue": "EastUs",
 			"metadata": {
 				"description": "The Azure location where the managed identity should be created."
 			}
@@ -75,12 +75,12 @@
 		"nestedCreateResourceGroupDeployment": "[format('nested-createResourceGroup-{0}', parameters('resourceGroupName'))]",
 		"nestedCreateIdentityDeployment": "[format('nested-setup-{0}', parameters('identityName'))]",
 		"nestedIdentityOwnSubContributorRoleAssignmentDeployment": "[format('nested-id-own-sub-contrib-role-{0}', parameters('identityName'))]",
-        "nestedIdentityRootReaderRoleAssignmentDeployment": "[format('nested-id-root-reader-role-{0}', parameters('identityName'))]",
-        "nestedCreateVirtualNetwork": "nested-virtual-network-deployment",
-        "vnetName": "dataguard-vnet"
+		"nestedIdentityRootReaderRoleAssignmentDeployment": "[format('nested-id-root-reader-role-{0}', parameters('identityName'))]",
+		"nestedCreateVirtualNetwork": "nested-virtual-network-deployment",
+		"vnetName": "dataguard-vnet",
+		"nestedCreateStorageAccountDeployment": "nested-Create-Storage-Account-Deployment"
 	},
-	"resources": [
-        {
+	"resources": [{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('setupSubscriptionDeployment')]",
@@ -268,12 +268,12 @@
 							}
 						}
 					}],
-                    "outputs": {
-                        "principalId": {
-                            "type": "string",
-                            "value": "[reference(format('create-{0}', parameters('identityName'))).outputs.principalId.value]"
-                        }
-                    }
+					"outputs": {
+						"principalId": {
+							"type": "string",
+							"value": "[reference(format('create-{0}', parameters('identityName'))).outputs.principalId.value]"
+						}
+					}
 
 				}
 			},
@@ -321,7 +321,7 @@
 						"apiVersion": "2019-10-01",
 						"name": "[format('add-contrib-role-to-id')]",
 						"subscriptionId": "[parameters('subscriptionId')]",
-                        "location": "[deployment().location]",
+						"location": "[deployment().location]",
 						"properties": {
 							"expressionEvaluationOptions": {
 								"scope": "inner"
@@ -348,7 +348,7 @@
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateIdentityDeployment'))]"
 			]
 		},
-        {
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('nestedIdentityRootReaderRoleAssignmentDeployment')]",
@@ -378,7 +378,7 @@
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
 						"name": "[format('add-contrib-role-to-id')]",
-                        "location": "[deployment().location]",
+						"location": "[deployment().location]",
 						"properties": {
 							"expressionEvaluationOptions": {
 								"scope": "inner"
@@ -402,7 +402,7 @@
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateIdentityDeployment'))]"
 			]
 		},
-        {
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('nestedCreateVirtualNetwork')]",
@@ -482,6 +482,86 @@
 			},
 			"dependsOn": [
 				"[format('Microsoft.Resources/deployments/{0}', variables('setupSubscriptionDeployment'))]"
+			]
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('nestedCreateStorageAccountDeployment')]",
+			"location": "[deployment().location]",
+			"properties": {
+				"expressionEvaluationOptions": {
+					"scope": "inner"
+				},
+				"mode": "Incremental",
+				"parameters": {
+					"subscriptionId": {
+						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+					},
+					"resourceGroupName": {
+						"value": "[parameters('resourceGroupName')]"
+					},
+					"location": {
+						"value": "[parameters('location')]"
+					}
+				},
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {
+						"subscriptionId": {
+							"type": "string",
+							"metadata": {
+								"description": "subscriptionId for the deployment"
+							}
+						},
+						"resourceGroupName": {
+							"type": "string",
+							"metadata": {
+								"description": "resource group name"
+							}
+						},
+						"location": {
+							"type": "string"
+						}
+					},
+					"resources": [{
+						"type": "Microsoft.Resources/deployments",
+						"apiVersion": "2019-10-01",
+						"name": "create-dg-storage-account",
+						"resourceGroup": "[parameters('resourceGroupName')]",
+						"subscriptionId": "[parameters('subscriptionId')]",
+						"properties": {
+							"expressionEvaluationOptions": {
+								"scope": "inner"
+							},
+							"mode": "Incremental",
+							"parameters": {
+								"location": {
+									"value": "[parameters('location')]"
+								}
+							},
+							"templateLink": {
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-storage-accnt.json",
+								"contentVersion": "1.0.0.0"
+							}
+						}
+					}],
+					"outputs": {
+						"storageAccountName": {
+							"type": "string",
+							"value": "[reference('create-dg-storage-account').outputs.storageAccountName.value]"
+						},
+						"storageAccountId": {
+							"type": "string",
+							"value": "[reference('create-dg-storage-account').outputs.storageAccountId.value]"
+						}
+					}
+
+				}
+			},
+			"dependsOn": [
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateResourceGroupDeployment'))]"
 			]
 		}
 	]
