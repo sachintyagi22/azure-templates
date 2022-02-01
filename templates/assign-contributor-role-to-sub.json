@@ -10,18 +10,10 @@
 		},
 		"subscriptionId": {
 			"type": "string"
-		}, 
-		"deployerPrincipalId": {
-			"type": "string"
-		},
-		"deployerPrincipalType": {
-			"type": "string",
-			"defaultValue": "User"
 		}
 	},
 	"variables": {
 		"contributorRoleAssignmentId": "[guid(concat('/subscriptions/', parameters('subscriptionId'), 'contributor'))]",
-		"deployerContributorRoleAssignmentId": "[guid(concat('/subscriptions/', parameters('subscriptionId'), 'contributor', 'deployer'))]",
 		"contributorForSubRoleDefinitionId": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
 		"subscriptionScope": "[concat('/subscriptions/', parameters('subscriptionId'))]"
 	},
@@ -34,17 +26,6 @@
 			"principalId": "[parameters('identityId')]",
 			"scope": "[variables('subscriptionScope')]",
 			"principalType": "ServicePrincipal"
-		}
-	},
-	{
-		"type": "Microsoft.Authorization/roleAssignments",
-		"apiVersion": "2021-04-01-preview",
-		"name": "[variables('deployerContributorRoleAssignmentId')]",
-		"properties": {
-			"roleDefinitionId": "[variables('contributorForSubRoleDefinitionId')]",
-			"principalId": "[parameters('deployerPrincipalId')]",
-			"scope": "[variables('subscriptionScope')]",
-			"principalType": "[parameters('deployerPrincipalType')]"
 		}
 	}]
 }
