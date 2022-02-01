@@ -80,7 +80,8 @@
 		"vnetName": "dataguard-vnet",
 		"nestedCreateStorageAccountDeployment": "nested-Create-Storage-Account-Deployment"
 	},
-	"resources": [{
+	"resources": [
+		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('setupSubscriptionDeployment')]",
@@ -525,28 +526,52 @@
 							"type": "string"
 						}
 					},
-					"resources": [{
-						"type": "Microsoft.Resources/deployments",
-						"apiVersion": "2019-10-01",
-						"name": "create-dg-storage-account",
-						"resourceGroup": "[parameters('resourceGroupName')]",
-						"subscriptionId": "[parameters('subscriptionId')]",
-						"properties": {
-							"expressionEvaluationOptions": {
-								"scope": "inner"
-							},
-							"mode": "Incremental",
-							"parameters": {
-								"location": {
-									"value": "[parameters('location')]"
+					"resources": [
+						{
+							"type": "Microsoft.Resources/deployments",
+							"apiVersion": "2019-10-01",
+							"name": "create-dg-storage-account",
+							"resourceGroup": "[parameters('resourceGroupName')]",
+							"subscriptionId": "[parameters('subscriptionId')]",
+							"properties": {
+								"expressionEvaluationOptions": {
+									"scope": "inner"
+								},
+								"mode": "Incremental",
+								"parameters": {
+									"location": {
+										"value": "[parameters('location')]"
+									}
+								},
+								"templateLink": {
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-storage-accnt.json",
+									"contentVersion": "1.0.0.0"
 								}
-							},
-							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-storage-accnt.json",
-								"contentVersion": "1.0.0.0"
+							}
+						},
+						{
+							"type": "Microsoft.Resources/deployments",
+							"apiVersion": "2019-10-01",
+							"name": "create-private-blob-dns-zone",
+							"resourceGroup": "[parameters('resourceGroupName')]",
+							"subscriptionId": "[parameters('subscriptionId')]",
+							"properties": {
+								"expressionEvaluationOptions": {
+									"scope": "inner"
+								},
+								"mode": "Incremental",
+								"parameters": {
+									"name": {
+										"value": "privatelink.blob.core.windows.net"
+									}
+								},
+								"templateLink": {
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-private-dns-zone.json",
+									"contentVersion": "1.0.0.0"
+								}
 							}
 						}
-					}],
+					],
 					"outputs": {
 						"storageAccountName": {
 							"type": "string",
