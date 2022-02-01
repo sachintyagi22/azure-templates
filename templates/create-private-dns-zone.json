@@ -21,5 +21,11 @@
 				"maxNumberOfVirtualNetworkLinksWithRegistration": 100
             }
         }
-    ]
+    ],
+    "outputs": {
+		"privateDnsZoneId": {
+			"type": "string",
+			"value": "[resourceId('Microsoft.Network/privateDnsZones', parameters('name'))]"
+		}
+	}
 }

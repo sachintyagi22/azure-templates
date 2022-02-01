@@ -27,11 +27,22 @@
                     {
                         "name": "default",
                         "properties": {
-                            "addressPrefix": "10.0.0.0/24"
+                            "addressPrefix": "10.0.0.0/24",
+                            "privateEndpointNetworkPolicies": "Disabled"
                         }
                     }
                 ]
             }
         }
-    ]
+    ],
+	"outputs": {
+		"vnetId": {
+			"type": "string",
+			"value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+		},
+		"defaultSubnetId": {
+			"type": "string",
+			"value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'default')]"
+		}
+	}
 }

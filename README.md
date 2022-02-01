@@ -9,8 +9,10 @@ Preequisite: Follow the steps here to grant the deploying user access at root ma
 The `Deploy to Azure` button does not work on Gitlab due to this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/16732).
 Therefore the deploy to azure button points to the public copy of this repo on Github. 
 
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
+
 ## Steps:
-1. Create a new dataguard subscription. [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
+1. Create a new dataguard subscription. 
 2. Create a managed identity and 
     * Assign it RBAC permissions for the AD tenant graph
     * Subscription contributor role on the data guard subscription
