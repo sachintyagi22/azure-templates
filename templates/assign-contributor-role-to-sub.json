@@ -2,7 +2,7 @@
 	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"identityName": {
+		"identityId": {
 			"type": "string",
 			"metadata": {
 				"description": "Specifies the name of the user-assigned managed identity."
@@ -23,7 +23,7 @@
 		"name": "[variables('contributorRoleAssignmentId')]",
 		"properties": {
 			"roleDefinitionId": "[variables('contributorForSubRoleDefinitionId')]",
-			"principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('identityName')), '2018-11-30').principalId]",
+			"principalId": "[parameters('identityId')]",
 			"scope": "[variables('subscriptionScope')]",
 			"principalType": "ServicePrincipal"
 		}
