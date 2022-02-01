@@ -7,7 +7,7 @@ Note: Useful [link](https://techcommunity.microsoft.com/t5/azure-governance-and-
 Preequisite: Follow the steps here to grant the deploying user access at root management level. [Link](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md)
 
 The `Deploy to Azure` button does not work on Gitlab due to this [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/16732).
-
+Therefore the deploy to azure button points to the public copy of this repo on Github. 
 
 ## Steps:
 1. Create a new dataguard subscription. [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
