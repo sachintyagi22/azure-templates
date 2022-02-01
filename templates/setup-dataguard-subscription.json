@@ -79,10 +79,10 @@
 		"nestedCreateVirtualNetwork": "nested-virtual-network-deployment",
 		"vnetName": "dataguard-vnet",
 		"nestedCreateStorageAccountDeployment": "nested-Create-Storage-Account-Deployment",
-		"nestedCreateStorageAccountPvtEpDeployment":"nested-Create-Storage-Account-pvt-ep-Deployment"
+		"nestedCreateStorageAccountPvtEpDeployment": "nested-Create-Storage-Account-pvt-ep-Deployment",
+		"nestedCreateActivityLogDiagSettingDeployment": "nested-Create-ActivityLog-DiagSetting-Deployment"
 	},
-	"resources": [
-		{
+	"resources": [{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
 			"name": "[variables('setupSubscriptionDeployment')]",
@@ -536,8 +536,7 @@
 							"type": "string"
 						}
 					},
-					"resources": [
-						{
+					"resources": [{
 							"type": "Microsoft.Resources/deployments",
 							"apiVersion": "2019-10-01",
 							"name": "create-dg-storage-account",
@@ -654,11 +653,11 @@
 						},
 						"location": {
 							"type": "string"
-						}, 
-						"storageAccountName":{
+						},
+						"storageAccountName": {
 							"type": "string"
 						},
-						"storageAccountId":{
+						"storageAccountId": {
 							"type": "string"
 						},
 						"defaultSubnetId": {
@@ -668,50 +667,102 @@
 							"type": "string"
 						}
 					},
-					"resources": [
-						{
-							"type": "Microsoft.Resources/deployments",
-							"apiVersion": "2019-10-01",
-							"name": "create-storage-account-blob-pvt-ep",
-							"resourceGroup": "[parameters('resourceGroupName')]",
-							"subscriptionId": "[parameters('subscriptionId')]",
-							"properties": {
-								"expressionEvaluationOptions": {
-									"scope": "inner"
+					"resources": [{
+						"type": "Microsoft.Resources/deployments",
+						"apiVersion": "2019-10-01",
+						"name": "create-storage-account-blob-pvt-ep",
+						"resourceGroup": "[parameters('resourceGroupName')]",
+						"subscriptionId": "[parameters('subscriptionId')]",
+						"properties": {
+							"expressionEvaluationOptions": {
+								"scope": "inner"
+							},
+							"mode": "Incremental",
+							"parameters": {
+								"location": {
+									"value": "[parameters('location')]"
 								},
-								"mode": "Incremental",
-								"parameters": {
-									"location": {
-										"value": "[parameters('location')]"
-									},
-									"privateEndpointName": {
-										"value": "[concat(parameters('storageAccountName'), '-blob-pvt-ep')]"
-									},
-									"privateLinkResource": {
-										"value": "[parameters('storageAccountId')]"
-									},
-									"targetSubResource": {
-										"value": ["blob"]
-									},
-									"subnetId": {
-										"value": "[parameters('defaultSubnetId')]"
-									},
-									"privateDnsZoneId": {
-										"value": "[parameters('privateDnsZoneId')]"
-									}
+								"privateEndpointName": {
+									"value": "[concat(parameters('storageAccountName'), '-blob-pvt-ep')]"
 								},
-								"templateLink": {
-									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-ep-blob.json",
-									"contentVersion": "1.0.0.0"
+								"privateLinkResource": {
+									"value": "[parameters('storageAccountId')]"
+								},
+								"targetSubResource": {
+									"value": ["blob"]
+								},
+								"subnetId": {
+									"value": "[parameters('defaultSubnetId')]"
+								},
+								"privateDnsZoneId": {
+									"value": "[parameters('privateDnsZoneId')]"
 								}
+							},
+							"templateLink": {
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-ep-blob.json",
+								"contentVersion": "1.0.0.0"
 							}
 						}
-					]
+					}]
 				}
 			},
 			"dependsOn": [
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]",
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateVirtualNetwork'))]"
+			]
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('nestedCreateActivityLogDiagSettingDeployment')]",
+			"location": "[deployment().location]",
+			"properties": {
+				"expressionEvaluationOptions": {
+					"scope": "inner"
+				},
+				"mode": "Incremental",
+				"parameters": {
+					"storageAccountId": {
+						"value": "[reference(format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))).outputs.storageAccountId.value]"
+					}
+				},
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {
+						"storageAccountId": {
+							"type": "string",
+							"metadata": {
+								"description": "dataguard storage account"
+							}
+						}
+					},
+					"resources": [{
+						"type": "Microsoft.Resources/deployments",
+						"apiVersion": "2019-10-01",
+						"name": "enable-activity-log-at-root",
+						"location": "[deployment().location]",
+						"properties": {
+							"expressionEvaluationOptions": {
+								"scope": "inner"
+							},
+							"mode": "Incremental",
+							"parameters": {
+								"storageAccountId": {
+									"value": "[parameters('storageAccountId')]"
+								}
+							},
+							"templateLink": {
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-diagnostic-setting-for-mgm-grp.json",
+								"contentVersion": "1.0.0.0"
+							}
+						}
+					}]
+
+				}
+			},
+			"dependsOn": [
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]"
 			]
 		}
 	]
