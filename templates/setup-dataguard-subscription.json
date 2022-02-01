@@ -2,6 +2,10 @@
 	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
+		"deployerPrincipalId": {
+			"type": "string",
+			"defaultValue": "95ac551c-2c9f-4d6d-b0cf-e59d6f9b8d42"
+		},
 		"subscriptionsToMonitor": {
 			"type": "array", 
 			"defaultValue": ["638dc5e8-9d48-485c-96f6-877ba307584e","6aa465aa-0075-40bc-a8da-cc33ef685b94", "ba296500-8b0a-4ca7-abff-1293cdd059eb", "a8bffe63-913d-401d-afd6-1f8a9b93787b"]
@@ -304,6 +308,9 @@
 					},
 					"subscriptionId": {
 						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+					}, 
+					"deployerPrincipalId": {
+						"value": "[parameters('deployerPrincipalId')]"
 					}
 				},
 				"template": {
@@ -321,6 +328,9 @@
 							"metadata": {
 								"description": "subscriptionId for the deployment"
 							}
+						},
+						"deployerPrincipalId": {
+							"type": "string"
 						}
 					},
 					"resources": [{
@@ -340,6 +350,9 @@
 								},
 								"subscriptionId": {
 									"value": "[parameters('subscriptionId')]"
+								}, 
+								"deployerPrincipalId":{
+									"value": "[parameters('deployerPrincipalId')]"
 								}
 							},
 							"templateLink": {
