@@ -68,6 +68,7 @@
 		},
 		"adminPublicKey": {
             "type": "string",
+			"defaultValue": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1tmWvPcbMawG5KsXhKEPL9kgxxpMaHW0of672On3NKQyo8O0ZBXDHe/gcnIwbFloOzGJvvDO3BxuJ6xAXFuwi5WcXZU6c2NVaP0G5kLI56YJvhvXYcMd4RR9EUawx76m7BO4nDujm+niSTgXKj/TpOKMh1pg0sNfpIwY0Knn+xpUTbeaz3DSoYaRMWVhbD78hx3GHLd84HukJOWpeYbT/VplAcK9xciKDuHewb+rMdO4XsAoKqNUP2X3flf0EMPWwFiBICkOE5MsJkO7j8UZdV7vGRww/Pecrn0jMK4k9i2JOH9WMMYZnM5tVwR0nCIPbd+A/RAzm8RDnUvyBoSlKOrbtdHmzEwdu3CJEdvoqLirCscAkSCC/KcvZPsVXBzLGnq4Py2pEwr8thJQhPqWOImKp62Jvud4737KK2gh1oVKX6pqXXGlJBcdEkOu3qKcM2ecWrhaLnoJpHwtUsR7uMYx9kju0XbBCuj6Zt4imO0yjOJRIu3M3AUTT+OOhiUusXFQIy49wDpcs8xPIk6UW1A9bpxxa3gSA5uM9baB8Tw+3a+soMouvFtrvdvFZuDnI4kLYysTcPjDni5Q7/mS5ZUkR8vE7feOpQcNqiuIEd16nLfq98NKjcJRR6fByt8X4nU5smkJ93u5yAN31iSItUrrHV1Z6wl4yvf23jBisxw== azureuser@dataguard",
             "metadata": {
                 "description": "For Dataguard VM, specifies the SSH rsa public key file as a string. Use \"ssh-keygen -t rsa -b 2048\" to generate your SSH key pairs."
             }
@@ -867,7 +868,7 @@
 								"subnetId": {
 									"value": "[parameters('defaultSubnetId')]"
 								},
-								"adminPublicKey": {
+								"adminPublicKeyInner": {
 									"value": "[parameters('adminPublicKey')]"
 								}
 							},
