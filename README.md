@@ -18,6 +18,8 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
+[![Deploy VM to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
+
 ## What these templates do
 1. Create a new dataguard subscription. 
 2. Create a managed identity and 

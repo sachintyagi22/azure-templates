@@ -868,7 +868,7 @@
 								"subnetId": {
 									"value": "[parameters('defaultSubnetId')]"
 								},
-								"adminPublicKeyInner": {
+								"adminPublicKey": {
 									"value": "[parameters('adminPublicKey')]"
 								}
 							},
