@@ -11,19 +11,19 @@
 #>
 
 $billingAccountPath = "/providers/Microsoft.Billing/billingaccounts/?api-version=2020-05-01"
-
 $billingAccounts = ($(Invoke-AzRestMethod -Method "GET" -path $billingAccountPath).Content | ConvertFrom-Json).value
-Write-Host $($billingAccounts)
-
+$Tab = [char]9
 foreach ($ba in $billingAccounts) {
-    Write-Host "Billing Account: $($ba.name)"
+    # Write-Host "Billing Account: $($ba.name)"
     $invoiceSectionsUri = "/providers/Microsoft.Billing/billingAccounts/$($ba.name)/listInvoiceSectionsWithCreateSubscriptionPermission?api-version=2019-10-01-preview"
     $invoiceSections = ($(Invoke-AzRestMethod -Method "POST" -path $invoiceSectionsUri).Content | ConvertFrom-Json).value
-    $DeploymentScriptOutputs = @{}
-    $invoiceSectionsArray = @()
+    $i = 0
     foreach($section in $invoiceSections){
-        $invoiceSectionsArray += $($section.invoiceSectionId)
-        Write-Host "Invoice section: $($section)"
-    }
-    $DeploymentScriptOutputs['invoiceSections'] = $invoiceSectionsArray
+        $i = $i + 1
+        Write-Host "Option $($i)"
+        Write-Host "$Tab Billing Account Id: $($ba.name)"
+        Write-Host "$Tab Billing Profile Id: $($section.billingProfileSystemId)   $Tab (Name: $($section.billingProfileDisplayName))"
+        Write-Host "$Tab Invoice Section Id: $($section.invoiceSectionSystemId)   $Tab (Name: $($section.invoiceSectionDisplayName))"
+        Write-Host "  "
+    }   
 }

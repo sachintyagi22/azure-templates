@@ -9,19 +9,19 @@
         }
     },
     "parameters": {
-        "billingAccountName": {
+        "billingAccountId": {
             "type": "string",
             "metadata": {
                 "description": "Billing Account Name used for subscription billing"
             }
         },
-        "billingProfileName": {
+        "billingProfileId": {
             "type": "string",
             "metadata": {
                 "description": "Billing Profile Name used for subscription billing"
             }
         },
-        "invoiceSectionName" : {
+        "invoiceSectionId" : {
             "type": "string",
             "metadata": {
                 "description": "Invoice section Name used for subscription billing"
@@ -56,7 +56,7 @@
             "properties": {
                 "workload": "[parameters('subscriptionWorkload')]",
                 "displayName": "[parameters('subscriptionDisplayName')]",
-                "billingScope": "[tenantResourceId('Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections', parameters('billingAccountName'), parameters('billingProfileName'), parameters('invoiceSectionName'))]"
+                "billingScope": "[tenantResourceId('Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections', parameters('billingAccountId'), parameters('billingProfileId'), parameters('invoiceSectionId'))]"
             }
         }
     ],
