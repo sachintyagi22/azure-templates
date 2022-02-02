@@ -5,7 +5,9 @@ Azure deployment templates to bring up and configure the dataguard landing zone 
 NOTE: The `Deploy to Azure` button does not work on Gitlab due to this CORS related [issue](https://gitlab.com/gitlab-org/gitlab/-/issues/16732).
 Therefore the deploy to azure button points to the public copy of this repo on Github. Eventually we can move these scripts to some other publicly accessible location, say S3, but it will involve the hassle of always keeping the repo, s3, and links in sync.
 
-## Prerequisites
+## Dataguard Environment Setup
+
+### Prerequisites
 1. A user with `AAD Global Administrators` to deploy this template.
 2. Follow the steps [here](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md) to configure deploying user's permissions for ARM tenant deployment.
 3. Collect the following information from your Azure environment as it will used as parameters to the deployment:
@@ -16,14 +18,9 @@ Therefore the deploy to azure button points to the public copy of this repo on G
     [Steps to fetch this information](#how-to-get-billing-account-name)
 
 
-Setup the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
+Set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
-NOTE: When launching VM choose the dataguard subscription name and resource group name specified while setting up the environment.
-
-Launch VM: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
-
-
-## What these templates do
+### What this deployment will do
 1. Create a new dataguard subscription. 
 2. Create a managed identity and 
     * Assign it RBAC permissions for the AD tenant graph
@@ -34,8 +31,20 @@ Launch VM: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://port
     * Create a private endpoint from the VNet
 5. Configure subscription level log diagnostic settings to push the activity logs data to dataguard storage account
 6. Configure any resource logs (that need to be analyzed by the dataguard) diagnostic settings to make it available to dataguard storage account.
-7. Launch VMs in the VNet.
-8. Create a bastion host in the public subnet to connect to the VMs in the VNet.
+7. Create a bastion host in the public subnet to connect to the VMs in the VNet.
+
+## Dataguard VM Launch
+
+### Prerequisites
+1. The dataguard environmet set up must be already completed. If not, follow the steps above.
+2. When launching dataguard VMs choose the dataguard subscription name and resource group name specified while setting up the environment.
+3. Generate SSH Key pair for the VM. Follow steps outlined [here](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys)
+
+Launch VM: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
+
+### What this deployment will do
+1. Create a new VM in the dataguard subscription within the dataguard VNet. 
+
 
 ## What these templates do NOT do
 1. Install dataguard services on the VMs.
