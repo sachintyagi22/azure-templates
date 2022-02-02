@@ -50,6 +50,10 @@
 		"defaultSubnetId": {
 			"type": "string",
 			"value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'default')]"
+		},
+        "bastionSubnetId": {
+			"type": "string",
+			"value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'AzureBastionSubnet')]"
 		}
 	}
 }
