@@ -10,15 +10,13 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 ### Prerequisites
 1. A user with `AAD Global Administrators` to deploy this template.
 2. Follow the steps [here](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md) to configure deploying user's permissions for ARM tenant deployment.
-3. Collect the following information from your Azure environment as it will used as parameters to the deployment:
+3. Follow [these steps](#how-to-get-billing-account-name) collect the following information from your Azure environment as it will be used in the deployment:
     * Billing Account Id 
     * Billing Profile Id
     * Invoice Section Id
     * Subscription Ids for which activities are to be monitored by Dataguard
-    [Steps to fetch this information](#how-to-get-billing-account-name)
-
-
-Set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
+    
+Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
 ### What this deployment will do
 1. Create a new dataguard subscription. 
@@ -33,7 +31,7 @@ Set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazu
 6. Configure any resource logs (that need to be analyzed by the dataguard) diagnostic settings to make it available to dataguard storage account.
 7. Create a bastion host in the public subnet to connect to the VMs in the VNet.
 
-## Dataguard VM Launch
+## Launch Dataguard VM 
 
 ### Prerequisites
 1. The dataguard environmet set up must be already completed. If not, follow the steps above.
@@ -50,6 +48,8 @@ Launch VM: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://port
 1. Install dataguard services on the VMs.
 
 For this we can use our existing workflows for AWS/GCP.
+
+To connect to VM in the dataguard VNet, follow these [steps](https://docs.microsoft.com/en-us/azure/bastion/bastion-connect-vm-ssh-linux)
 
 ## How to Get Billing Account Name
 1. [Signin](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-7.1.0) with Azure Powershell (signin user should have access to billing information).
@@ -68,7 +68,7 @@ Option 1
 Option 2
 	 Billing Account Id: aaaaaaaa-1111-1111-1111-1111aaaabbbb:cccc2222-1111-2222-3333-eeeeffff1111_2019-01-01
 	 Billing Profile Id: YAAA-XXXX-YYY-PPP   	 (Name: Bhimsen Joshi)
-	 Invoice Section Id: BBBB-TTTT-UUU-KKK   	 (Name: Test Profile)
+	 Invoice Section Id: BBBB-TTTT-UUU-KKK   	 (Name: Bhimsen Profile)
 
 ===============================
 Subscriptions Information
