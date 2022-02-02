@@ -26,5 +26,6 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 8. Create a bastion host in the public subnet to connect to the VMs in the VNet.
 9. Install dataguard services on the VMs.
 
-Check: [SO](https://stackoverflow.com/questions/63478559/how-to-deploy-arm-template-with-user-managed-identity-and-assign-a-subscription)
-
+Some issues that surfaced:
+1. [link](https://stackoverflow.com/questions/63478559/how-to-deploy-arm-template-with-user-managed-identity-and-assign-a-subscription)
+2. Unable to configure activity logs to a storage account. [link](https://docs.microsoft.com/en-us/answers/questions/36200/set-azdiagnosticsetting-gives-a-storage-not-provis.html)

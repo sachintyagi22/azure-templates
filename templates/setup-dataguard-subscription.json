@@ -502,7 +502,7 @@
 				}
 			},
 			"dependsOn": [
-				"[format('Microsoft.Resources/deployments/{0}', variables('setupSubscriptionDeployment'))]"
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateResourceGroupDeployment'))]"
 			]
 		},
 		{
