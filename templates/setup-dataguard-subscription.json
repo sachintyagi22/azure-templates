@@ -813,9 +813,6 @@
 					},
 					"subscriptionId": {
 						"value": "[parameters('subscriptionsToMonitor')[copyIndex()]]"
-					}, 
-					"resourceGroupName": {
-						"value": "[parameters('resourceGroupName')]"
 					}
 				},
 				"template": {
@@ -829,9 +826,6 @@
 							}
 						},
 						"subscriptionId":{
-							"type": "string"
-						},
-						"resourceGroupName": {
 							"type": "string"
 						}
 					},
