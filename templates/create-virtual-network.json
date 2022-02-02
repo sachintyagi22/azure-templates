@@ -30,6 +30,13 @@
                             "addressPrefix": "10.0.0.0/24",
                             "privateEndpointNetworkPolicies": "Disabled"
                         }
+                    },
+                    {
+                        "name": "bastion",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/26",
+                            "privateEndpointNetworkPolicies": "Disabled"
+                        }
                     }
                 ]
             }
