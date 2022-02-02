@@ -71,7 +71,7 @@
             "metadata": {
                 "description": "For Dataguard VM, specifies the SSH rsa public key file as a string. Use \"ssh-keygen -t rsa -b 2048\" to generate your SSH key pairs."
             }
-        }
+        },
 		"location": {
 			"type": "string",
 			"defaultValue": "EastUs",
