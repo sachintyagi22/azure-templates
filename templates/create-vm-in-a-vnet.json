@@ -12,13 +12,6 @@
             "defaultValue": "dataguard-vm-1",
             "type": "string"
         },
-        "location": {
-            "defaultValue": "[resourceGroup().location]",
-            "type": "string"
-        },
-        "subnetId": {
-            "type": "string"
-        },
         "publicIpAddressType": {
             "defaultValue": "Dynamic",
             "type": "string"
@@ -41,9 +34,8 @@
         }
     },
     "variables": {
-        // "vnetId": "[parameters('virtualNetworkId')]",
-        // "vnetName": "[last(split(variables('vnetId'), '/'))]",
-        "subnetRef": "[parameters('subnetId')]",
+        "vnetId": "[resourceId(resourceGroup().id,'Microsoft.Network/virtualNetworks', 'dataguard-vnet')]",
+        "subnetRef": "[concat(variables('vnetId'),'/subnets/default')]",
         "networkInterfaceName": "[concat(parameters('vmName'), '-', 'network-intr-face')]",
         "networkSecurityGroupName": "[concat(parameters('vmName'), '-', 'nsg')]",
         "networkSecurityGroupRules": [],
@@ -55,7 +47,7 @@
             "name": "[variables('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2021-03-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
@@ -84,7 +76,7 @@
             "name": "[variables('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2019-02-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "securityRules": "[variables('networkSecurityGroupRules')]"
             }
@@ -93,7 +85,7 @@
             "name": "[variables('publicIpAddressName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2019-02-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "properties": {
                 "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
             },
@@ -105,7 +97,7 @@
             "name": "[parameters('vmName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2021-07-01",
-            "location": "[parameters('location')]",
+            "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
             ],
@@ -131,7 +123,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
                         }
                     ]
                 },
