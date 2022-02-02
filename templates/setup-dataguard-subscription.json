@@ -721,82 +721,82 @@
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateVirtualNetwork'))]"
 			]
 		},
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "[variables('nestedDeployerRoleAssignmentToStorageAccntDeployment')]",
-			"location": "[deployment().location]",
-			"properties": {
-				"expressionEvaluationOptions": {
-					"scope": "inner"
-				},
-				"mode": "Incremental",
-				"parameters": {
-					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
-					},
-					"storageAccountName": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))).outputs.storageAccountName.value]"
-					},
-					"deployerPrincipalId": {
-						"value": "[parameters('deployerPrincipalId')]"
-					},
-					"resourceGroupName": {
-						"value": "[parameters('resourceGroupName')]"
-					}
-				},
-				"template": {
-					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
-					"contentVersion": "1.0.0.0",
-					"parameters": {
-						"subscriptionId": {
-							"type": "string"
-						},
-						"deployerPrincipalId": {
-							"type": "string",
-							"metadata": {
-								"description": "dataguard identity"
-							}
-						},
-						"storageAccountName": {
-							"type": "string"
-						}, 
-						"resourceGroupName": {
-							"type": "string"
-						}
-					},
-					"resources": [{
-						"type": "Microsoft.Resources/deployments",
-						"apiVersion": "2019-10-01",
-						"name": "add-blob-contrib-role-to-deployer",
-						"resourceGroup": "[parameters('resourceGroupName')]",
-						"subscriptionId": "[parameters('subscriptionId')]",
-						"properties": {
-							"expressionEvaluationOptions": {
-								"scope": "inner"
-							},
-							"mode": "Incremental",
-							"parameters": {
-								"deployerPrincipalId": {
-									"value": "[parameters('deployerPrincipalId')]"
-								},
-								"storageAccountName": {
-									"value": "[parameters('storageAccountName')]"
-								}
-							},
-							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/assign-blob-contributor-role-to-deployer.json",
-								"contentVersion": "1.0.0.0"
-							}
-						}
-					}]
+		// {
+		// 	"type": "Microsoft.Resources/deployments",
+		// 	"apiVersion": "2019-10-01",
+		// 	"name": "[variables('nestedDeployerRoleAssignmentToStorageAccntDeployment')]",
+		// 	"location": "[deployment().location]",
+		// 	"properties": {
+		// 		"expressionEvaluationOptions": {
+		// 			"scope": "inner"
+		// 		},
+		// 		"mode": "Incremental",
+		// 		"parameters": {
+		// 			"subscriptionId": {
+		// 				"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+		// 			},
+		// 			"storageAccountName": {
+		// 				"value": "[reference(format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))).outputs.storageAccountName.value]"
+		// 			},
+		// 			"deployerPrincipalId": {
+		// 				"value": "[parameters('deployerPrincipalId')]"
+		// 			},
+		// 			"resourceGroupName": {
+		// 				"value": "[parameters('resourceGroupName')]"
+		// 			}
+		// 		},
+		// 		"template": {
+		// 			"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+		// 			"contentVersion": "1.0.0.0",
+		// 			"parameters": {
+		// 				"subscriptionId": {
+		// 					"type": "string"
+		// 				},
+		// 				"deployerPrincipalId": {
+		// 					"type": "string",
+		// 					"metadata": {
+		// 						"description": "dataguard identity"
+		// 					}
+		// 				},
+		// 				"storageAccountName": {
+		// 					"type": "string"
+		// 				}, 
+		// 				"resourceGroupName": {
+		// 					"type": "string"
+		// 				}
+		// 			},
+		// 			"resources": [{
+		// 				"type": "Microsoft.Resources/deployments",
+		// 				"apiVersion": "2019-10-01",
+		// 				"name": "add-blob-contrib-role-to-deployer",
+		// 				"resourceGroup": "[parameters('resourceGroupName')]",
+		// 				"subscriptionId": "[parameters('subscriptionId')]",
+		// 				"properties": {
+		// 					"expressionEvaluationOptions": {
+		// 						"scope": "inner"
+		// 					},
+		// 					"mode": "Incremental",
+		// 					"parameters": {
+		// 						"deployerPrincipalId": {
+		// 							"value": "[parameters('deployerPrincipalId')]"
+		// 						},
+		// 						"storageAccountName": {
+		// 							"value": "[parameters('storageAccountName')]"
+		// 						}
+		// 					},
+		// 					"templateLink": {
+		// 						"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/assign-blob-contributor-role-to-deployer.json",
+		// 						"contentVersion": "1.0.0.0"
+		// 					}
+		// 				}
+		// 			}]
 
-				}
-			},
-			"dependsOn": [
-				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]"
-			]
-		},
+		// 		}
+		// 	},
+		// 	"dependsOn": [
+		// 		"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]"
+		// 	]
+		// },
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -864,8 +864,8 @@
 				"count": "[length(parameters('subscriptionsToMonitor'))]"
 			},
 			"dependsOn": [
-				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]",
-				"[format('Microsoft.Resources/deployments/{0}', variables('nestedDeployerRoleAssignmentToStorageAccntDeployment'))]"
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]"//,
+				// "[format('Microsoft.Resources/deployments/{0}', variables('nestedDeployerRoleAssignmentToStorageAccntDeployment'))]"
 			]
 		}
 	]
