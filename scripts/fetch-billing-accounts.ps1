@@ -13,6 +13,10 @@
 $billingAccountPath = "/providers/Microsoft.Billing/billingaccounts/?api-version=2020-05-01"
 $billingAccounts = ($(Invoke-AzRestMethod -Method "GET" -path $billingAccountPath).Content | ConvertFrom-Json).value
 $Tab = [char]9
+Write-Host "==============================="
+Write-Host "Billing Information"
+Write-Host "==============================="
+Write-Host "  "
 foreach ($ba in $billingAccounts) {
     # Write-Host "Billing Account: $($ba.name)"
     $invoiceSectionsUri = "/providers/Microsoft.Billing/billingAccounts/$($ba.name)/listInvoiceSectionsWithCreateSubscriptionPermission?api-version=2019-10-01-preview"
@@ -27,3 +31,7 @@ foreach ($ba in $billingAccounts) {
         Write-Host "  "
     }   
 }
+Write-Host "==============================="
+Write-Host "Subscriptions Information"
+Write-Host "==============================="
+Get-AzSubscription

@@ -37,9 +37,14 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 For this we can use our existing workflows for AWS/GCP.
 
 ## How to Get Billing Account Name
-1. Signin with Azure Powershell (signin user should have access to billing information). [Steps](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-7.1.0)
-2. Run [this script](scripts/fetch-billing-accounts.ps1) after login and note down the relevant billing information. It will produce information about different billing sections, note down the one you want to use for creating a new subscription for dataguard.
+1. [Signin](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-7.1.0) with Azure Powershell (signin user should have access to billing information).
+2. Run [this script](scripts/fetch-billing-accounts.ps1) after login and note down the relevant billing information. It will produce information about different billing sections and subscriptions, note down the billing informatation you want to use for creating a new subscription for dataguard.
+Also note down all the subscription Ids you want dataguard to read activity logs for.
 ```
+===============================
+Billing Information
+===============================
+
 Option 1
 	 Billing Account Id: aaaaaaaa-1111-1111-1111-1111aaaabbbb:cccc2222-1111-2222-3333-eeeeffff1111_2019-01-01
 	 Billing Profile Id: YAAA-XXXX-YYY-PPP   	 (Name: Bhimsen Joshi)
@@ -49,6 +54,17 @@ Option 2
 	 Billing Account Id: aaaaaaaa-1111-1111-1111-1111aaaabbbb:cccc2222-1111-2222-3333-eeeeffff1111_2019-01-01
 	 Billing Profile Id: YAAA-XXXX-YYY-PPP   	 (Name: Bhimsen Joshi)
 	 Invoice Section Id: BBBB-TTTT-UUU-KKK   	 (Name: Test Profile)
+
+===============================
+Subscriptions Information
+===============================
+
+Name                             Id                                   TenantId                             State
+----                             --                                   --------                             -----
+Azure subscription 1             xxxxaaaa-bbbb-cccc-dddd-aaaa11111111 aaaaaaaa-bbbb-cccc-dddd-1234567890ab Enabled
+Azure subscription 2             xxxxaaaa-bbbb-cccc-dddd-aaaa11111112 aaaaaaaa-bbbb-cccc-dddd-1234567890ab Enabled
+Azure subscription 3             xxxxaaaa-bbbb-cccc-dddd-aaaa11111113 aaaaaaaa-bbbb-cccc-dddd-1234567890ab Enabled
+
 ```
 
 ## Useful references
