@@ -66,6 +66,12 @@
 				"description": "Resource group name for dataguard."
 			}
 		},
+		"adminPublicKey": {
+            "type": "string",
+            "metadata": {
+                "description": "For Dataguard VM, specifies the SSH rsa public key file as a string. Use \"ssh-keygen -t rsa -b 2048\" to generate your SSH key pairs."
+            }
+        }
 		"location": {
 			"type": "string",
 			"defaultValue": "EastUs",
@@ -84,7 +90,8 @@
 		"vnetName": "dataguard-vnet",
 		"nestedCreateStorageAccountDeployment": "nested-Create-Storage-Account-Deployment",
 		"nestedCreateStorageAccountPvtEpDeployment": "nested-Create-Storage-Account-pvt-ep-Deployment",
-		"nestedCreateActivityLogDiagSettingDeployment": "nested-Create-ActivityLog-DiagSetting-Deployment"
+		"nestedCreateActivityLogDiagSettingDeployment": "nested-Create-ActivityLog-DiagSetting-Deployment",
+		"nestedCreateVMDeployment": "nested-Create-VM-Deployment"
 	},
 	"resources": [
 		{
@@ -784,6 +791,97 @@
 			},
 			"dependsOn": [
 				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]"
+			]
+		},
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[variables('nestedCreateVMDeployment')]",
+			"location": "[deployment().location]",
+			"properties": {
+				"expressionEvaluationOptions": {
+					"scope": "inner"
+				},
+				"mode": "Incremental",
+				"parameters": {
+					"subscriptionId": {
+						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+					},
+					"resourceGroupName": {
+						"value": "[parameters('resourceGroupName')]"
+					},
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"defaultSubnetId": {
+						"value": "[reference(format('Microsoft.Resources/deployments/{0}', variables('nestedCreateVirtualNetwork'))).outputs.defaultSubnetId.value]"
+					},
+					"adminPublicKey": {
+						"value": "[parameters('adminPublicKey')]"
+					}
+				},
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {
+						"subscriptionId": {
+							"type": "string",
+							"metadata": {
+								"description": "subscriptionId for the deployment"
+							}
+						},
+						"resourceGroupName": {
+							"type": "string",
+							"metadata": {
+								"description": "resource group name"
+							}
+						},
+						"location": {
+							"type": "string"
+						},
+						"defaultSubnetId": {
+							"type": "string"
+						},
+						"adminPublicKey": {
+							"type": "adminPublicKey"
+						}
+					},
+					"resources": [{
+						"type": "Microsoft.Resources/deployments",
+						"apiVersion": "2019-10-01",
+						"name": "create-dataguard-vm",
+						"resourceGroup": "[parameters('resourceGroupName')]",
+						"subscriptionId": "[parameters('subscriptionId')]",
+						"properties": {
+							"expressionEvaluationOptions": {
+								"scope": "inner"
+							},
+							"mode": "Incremental",
+							"parameters": {
+								"location": {
+									"value": "[parameters('location')]"
+								},
+								"vmName": {
+									"value": "dataguard-vm-1"
+								},
+								"subnetId": {
+									"value": "[parameters('defaultSubnetId')]"
+								},
+								"adminPublicKey": {
+									"value": "[parameters('adminPublicKey')]"
+								}
+							},
+							"templateLink": {
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-vm-in-a-vnet.json",
+								"contentVersion": "1.0.0.0"
+							}
+						}
+					}]
+				}
+			},
+			"dependsOn": [
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateStorageAccountDeployment'))]",
+				"[format('Microsoft.Resources/deployments/{0}', variables('nestedCreateVirtualNetwork'))]"
 			]
 		}
 	]

@@ -12,8 +12,9 @@ Therefore the deploy to azure button points to the public copy of this repo on G
     * Billing Account Id 
     * Billing Profile Id
     * Invoice Section Id
+    * Subscription Ids for which activities are to be monitored by Dataguard
     [Steps to fetch this information](#how-to-get-billing-account-name)
-4. Subscription Ids for which activities are to be monitored by Dataguard
+
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
