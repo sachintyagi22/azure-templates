@@ -4,17 +4,50 @@
     .Description
         
 #>
+param(
+    [string]$TenantID,
+    [string]$SubscriptionName='Template Created DG Subscription',
+    [string]$ManagedIdentityName= 'template-created-dg-id',
+    [string]$ResourceGroupName='dataguard-resource-grp'
+)
 
-$TenantID="<tenant id>"
+$ValidData = $true
+if(-not $TenantID)
+ {
+     Write-Host "TenantID was null. "
+     $ValidData = $false
+ }
+ if(-not $SubscriptionName)
+ {
+     Write-Host "SubscriptionName was null. "
+     $ValidData = $false
+ }
+ if(-not $ManagedIdentityName)
+ {
+     Write-Host "ManagedIdentityName was null. "
+     $ValidData = $false
+ }
+ if(-not $ResourceGroupName)
+ {
+     Write-Host "ResourceGroupName was null. "
+     $ValidData = $false
+ }
+
+ if (-not $ValidData) 
+ {
+    Write-Host "Please rerun this script and pass valid parameters."                 
+    return   
+ } 
+
 $GraphAppId = "00000003-0000-0000-c000-000000000000"
-$DisplayNameOfMSI="template-created-dg-id"
+$ManagedIdentityName="template-created-dg-id"
 $PermissionNames = "Directory.Read.All", "UserAuthenticationMethod.Read.All"
 
 # Install the module if needed: Install-Module AzureAD
 
-Connect-AzureAD -TenantId $TenantID
-
-$MSI = (Get-AzureADServicePrincipal -Filter "displayName eq '$DisplayNameOfMSI'")
+Connect-AzureAD -TenantId $TenantID -erroraction 'silentlycontinue'
+Write-Host "Connected to AD..."
+$MSI = (Get-AzureADServicePrincipal -Filter "displayName eq '$ManagedIdentityName'")
 
 Start-Sleep -Seconds 10
 
@@ -22,7 +55,7 @@ $GraphServicePrincipal = Get-AzureADServicePrincipal -Filter "appId eq '$GraphAp
 foreach($pName in $PermissionNames){
     $AppRole = $GraphServicePrincipal.AppRoles | Where-Object {$_.Value -eq $pName -and $_.AllowedMemberTypes -contains "Application"}
 
-    New-AzureAdServiceAppRoleAssignment -ObjectId $MSI.ObjectId -PrincipalId $MSI.ObjectId -ResourceId $GraphServicePrincipal.ObjectId -Id $AppRole.Id
+    New-AzureAdServiceAppRoleAssignment -ObjectId $MSI.ObjectId -PrincipalId $MSI.ObjectId -ResourceId $GraphServicePrincipal.ObjectId -Id $AppRole.Id -erroraction 'silentlycontinue'
 }
 
 function Get-AzCachedAccessToken()
@@ -44,9 +77,13 @@ function Get-AzCachedAccessToken()
 $token = Get-AzCachedAccessToken
 $ruleName = "dataguard-managed-id-ad-diag-setting"
 
-Select-AzureRmSubscription -Subscription 'Template Created DG Subscription'
-$storageAccount = Get-AzureRmStorageAccount -ResourceGroupName "dataguard-resource-grp"
+Write-Host "Setting subscription: $($SubscriptionName)"
+
+Select-AzureRmSubscription -Subscription $SubscriptionName
+$storageAccount = Get-AzureRmStorageAccount -ResourceGroupName $ResourceGroupName
 $storageAccountId = $storageAccount.id
+
+Write-Host "Sending AD Audit logs to storage account: $($storageAccountId)"
 
 $uri = "https://management.azure.com/providers/microsoft.aadiam/diagnosticSettings/{0}?api-version=2017-04-01-preview" -f $ruleName
 $body = @"

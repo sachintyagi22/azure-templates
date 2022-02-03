@@ -30,7 +30,7 @@ Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deployt
 6. Configure any resource logs (that need to be analyzed by the dataguard) diagnostic settings to make it available to dataguard storage account.
 7. Create a bastion host in the public subnet to connect to the VMs in the VNet.
 
-## Assign RBAC permissions for the AD tenant graph to Managed Identity
+## Configure read settings on Active Directory
 
 ### Prerequisites
 1. Tenant id for Active directory
