@@ -2,6 +2,10 @@
 	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
+		"createBastion":{
+			"defaultValue": false,
+			"type": "bool",
+		},
 		"subscriptionsToMonitor": {
 			"type": "array", 
 			// "defaultValue": ["638dc5e8-9d48-485c-96f6-877ba307584e","6aa465aa-0075-40bc-a8da-cc33ef685b94", "ba296500-8b0a-4ca7-abff-1293cdd059eb", "a8bffe63-913d-401d-afd6-1f8a9b93787b"]
@@ -796,6 +800,7 @@
 			"apiVersion": "2019-10-01",
 			"name": "[variables('nestedCreateBastionDeployment')]",
 			"location": "[deployment().location]",
+			"condition": "[equals(parameters('createBastion'), true())]",
 			"properties": {
 				"expressionEvaluationOptions": {
 					"scope": "inner"
