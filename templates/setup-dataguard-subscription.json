@@ -48,7 +48,10 @@
 		},
 		"subscriptionDisplayName": {
 			"type": "string",
-			// "defaultValue": "Template Created DG Subscription",
+			"defaultValue": "Template Created DG Subscription",
+			"allowedValues": [
+				"Template Created DG Subscription"
+			],
 			"metadata": {
 				"description": "Display name for the subscription"
 			}
@@ -65,7 +68,10 @@
 		},
 		"resourceGroupName": {
 			"type": "string",
-			// "defaultValue": "dataguard-resource-grp",
+			"defaultValue": "dataguard-resource-grp",
+			"allowedValues": [
+				"dataguard-resource-grp"
+			],
 			"metadata": {
 				"description": "Resource group name for dataguard."
 			}

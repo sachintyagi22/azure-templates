@@ -21,7 +21,6 @@ Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deployt
 ### What this deployment will do
 1. Create a new dataguard subscription. 
 2. Create a managed identity and 
-    * Assign it RBAC permissions for the AD tenant graph
     * Subscription contributor role on the data guard subscription
     * Reader role at the root tenant group
 3. Create a VNet in the dataguard subscription.
@@ -30,6 +29,13 @@ Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deployt
 5. Configure subscription level log diagnostic settings to push the activity logs data to dataguard storage account
 6. Configure any resource logs (that need to be analyzed by the dataguard) diagnostic settings to make it available to dataguard storage account.
 7. Create a bastion host in the public subnet to connect to the VMs in the VNet.
+
+## Assign RBAC permissions for the AD tenant graph to Managed Identity
+
+### Prerequisites
+1. Tenant id for Active directory
+
+Run [this script](scripts/configure-ad-settings.ps1) to assign AD read roles to the managed identity and configure archiving of AD audit events.
 
 ## Launch Dataguard VM 
 
