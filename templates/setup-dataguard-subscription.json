@@ -2,9 +2,11 @@
 	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"createBastion":{
-			"defaultValue": true,
-			"type": "bool"
+		"subscriptionId": {
+			"type": "string",
+			"metadata": {
+				"description": "Subscription Id for dataguard."
+			}
 		},
 		"subscriptionsToMonitor": {
 			"type": "array", 
@@ -21,51 +23,6 @@
 				"description": "Specifies the name of the user-assigned managed identity used for dataguard."
 			}
 		},
-		"billingAccountId": {
-			"type": "string",
-			// "defaultValue": "a685f040-47fe-5e3f-2992-5ae889ed21c4:2f596f4c-568b-4b84-9818-ea9d2f94395a_2019-05-31",
-			"metadata": {
-				"description": "Billing account name under which subscription is to be created."
-			}
-		},
-		"billingProfileId": {
-			"type": "string",
-			// "defaultValue": "YAFH-TNXC-BG7-PGB",
-			"metadata": {
-				"description": "Billing profile name under which subscription is to be created."
-			}
-		},
-		"invoiceSectionId": {
-			"type": "string",
-			// "defaultValue": "IWAI-T3SI-PJA-PGB",
-			"metadata": {
-				"description": "Invoice section name under which subscription is to be created."
-			}
-		},
-		"subscriptionAlias": {
-			"type": "string",
-			// "defaultValue": "temp-dg-sub",
-			"metadata": {
-				"description": "Alias to assign to the subscription"
-			}
-		},
-		"subscriptionDisplayName": {
-			"type": "string",
-			// "defaultValue": "Template Created DG Subscription",
-			"metadata": {
-				"description": "Display name for the subscription"
-			}
-		},
-		"subscriptionWorkload": {
-			"type": "string",
-			"defaultValue": "Production",
-			"allowedValues": [
-				"Production"
-			],
-			"metadata": {
-				"description": "Workload type for the subscription"
-			}
-		},
 		"resourceGroupName": {
 			"type": "string",
 			"defaultValue": "dataguard-resource-grp",
@@ -76,6 +33,10 @@
 				"description": "Resource group name for dataguard."
 			}
 		},
+		"createBastion":{
+			"defaultValue": true,
+			"type": "bool"
+		},
 		"location": {
 			"type": "string",
 			"defaultValue": "EastUs",
@@ -85,55 +46,18 @@
 		}
 	},
 	"variables": {
-		"setupSubscriptionDeployment": "[format('setup-{0}', parameters('subscriptionAlias'))]",
-		"nestedCreateResourceGroupDeployment": "[format('nested-createResourceGroup-{0}', parameters('resourceGroupName'))]",
-		"nestedCreateIdentityDeployment": "[format('nested-setup-{0}', parameters('identityName'))]",
-		"nestedIdentityOwnSubContributorRoleAssignmentDeployment": "[format('nested-id-own-sub-contrib-role-{0}', parameters('identityName'))]",
-		"nestedIdentityRootReaderRoleAssignmentDeployment": "[format('nested-id-root-reader-role-{0}', parameters('identityName'))]",
-		"nestedCreateVirtualNetwork": "nested-virtual-network-deployment",
+		"nestedCreateResourceGroupDeployment": "[format('create-resource-group-{0}', parameters('resourceGroupName'))]",
+		"nestedCreateIdentityDeployment": "[format('setup-id-{0}', parameters('identityName'))]",
+		"nestedIdentityOwnSubContributorRoleAssignmentDeployment": "[format('assign-own-sub-contrib-role-{0}', parameters('identityName'))]",
+		"nestedIdentityRootReaderRoleAssignmentDeployment": "[format('assign-root-reader-role-{0}', parameters('identityName'))]",
+		"nestedCreateVirtualNetwork": "virtual-network-deployment",
 		"vnetName": "dataguard-vnet",
-		"nestedCreateStorageAccountDeployment": "nested-Create-Storage-Account-Deployment",
-		"nestedCreateStorageAccountPvtEpDeployment": "nested-Create-Storage-Account-pvt-ep-Deployment",
-		"nestedCreateActivityLogDiagSettingDeployment": "nested-Create-ActivityLog-DiagSetting-Deployment",
-		"nestedCreateBastionDeployment": "nested-Create-Bastion-Deployment"
+		"nestedCreateStorageAccountDeployment": "create-storage-account",
+		"nestedCreateStorageAccountPvtEpDeployment": "create-storage-account-pvt-ep",
+		"nestedCreateActivityLogDiagSettingDeployment": "create-activityLog-diagSettings",
+		"nestedCreateBastionDeployment": "create-bastion"
 	},
 	"resources": [
-		{
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2019-10-01",
-			"name": "[variables('setupSubscriptionDeployment')]",
-			"location": "[deployment().location]",
-			"properties": {
-				"expressionEvaluationOptions": {
-					"scope": "inner"
-				},
-				"mode": "Incremental",
-				"parameters": {
-					"billingAccountId": {
-						"value": "[parameters('billingAccountId')]"
-					},
-					"billingProfileId": {
-						"value": "[parameters('billingProfileId')]"
-					},
-					"invoiceSectionId": {
-						"value": "[parameters('invoiceSectionId')]"
-					},
-					"subscriptionAlias": {
-						"value": "[parameters('subscriptionAlias')]"
-					},
-					"subscriptionDisplayName": {
-						"value": "[parameters('subscriptionDisplayName')]"
-					},
-					"subscriptionWorkload": {
-						"value": "[parameters('subscriptionWorkload')]"
-					}
-				},
-				"templateLink": {
-					"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-subscription.json",
-					"contentVersion": "1.0.0.0"
-				}
-			}
-		},
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
@@ -152,7 +76,7 @@
 						"value": "[parameters('location')]"
 					},
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					}
 				},
 				"template": {
@@ -206,10 +130,7 @@
 						}
 					}]
 				}
-			},
-			"dependsOn": [
-				"[format('Microsoft.Resources/deployments/{0}', variables('setupSubscriptionDeployment'))]"
-			]
+			}
 		},
 		{
 			"type": "Microsoft.Resources/deployments",
@@ -226,7 +147,7 @@
 						"value": "[parameters('identityName')]"
 					},
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
@@ -314,7 +235,7 @@
 						"value": "[reference(format('Microsoft.Resources/deployments/{0}', variables('nestedCreateIdentityDeployment'))).outputs.principalId.value]"
 					},
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					}
 				},
 				"template": {
@@ -435,7 +356,7 @@
 						"value": "[variables('vnetName')]"
 					},
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
@@ -527,7 +448,7 @@
 				"mode": "Incremental",
 				"parameters": {
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
@@ -634,7 +555,7 @@
 				"mode": "Incremental",
 				"parameters": {
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
@@ -814,7 +735,7 @@
 				"mode": "Incremental",
 				"parameters": {
 					"subscriptionId": {
-						"value": "[reference(format('Microsoft.Resources/deployments/{0}', format('setup-{0}', parameters('subscriptionAlias'))), '2019-10-01').outputs.subscriptionId.value]"
+						"value": "[parameters('subscriptionId')]"
 					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"

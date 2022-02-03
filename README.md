@@ -15,7 +15,11 @@ Therefore the deploy to azure button points to the public copy of this repo on G
     * Billing Profile Id
     * Invoice Section Id
     * Subscription Ids for which activities are to be monitored by Dataguard
-    
+
+Create a dataguard subscription (skip if already created): [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-create-dataguard-subscription.json)
+
+Note down the subscription Id and use it to deploy the following template into that subscription.
+
 Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
 ### What this deployment will do
