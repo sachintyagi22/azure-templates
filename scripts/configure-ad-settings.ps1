@@ -78,9 +78,9 @@ $ruleName = "dataguard-managed-id-ad-diag-setting"
 
 Write-Host "Setting subscription: $($SubscriptionName)"
 
-Select-AzureRmSubscription -Subscription $SubscriptionName
-$storageAccount = Get-AzureRmStorageAccount -ResourceGroupName $ResourceGroupName
-$storageAccountId = $storageAccount.id
+Set-AzContext -Subscription $SubscriptionName
+$StorageAccount = Get-AzStorageAccount -ResourceGroupName $ResourceGroupName
+$storageAccountId = $StorageAccount.Id
 
 Write-Host "Sending AD Audit logs to storage account: $($storageAccountId)"
 
