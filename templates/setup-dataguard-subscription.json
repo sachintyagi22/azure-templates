@@ -3,7 +3,7 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"createBastion":{
-			"defaultValue": false,
+			"defaultValue": true,
 			"type": "bool"
 		},
 		"subscriptionsToMonitor": {
@@ -13,7 +13,10 @@
 		},
 		"identityName": {
 			"type": "string",
-			// "defaultValue": "template-created-dg-id",
+			"defaultValue": "template-created-dg-id",
+			"allowedValues": [
+				"template-created-dg-id"
+			],
 			"metadata": {
 				"description": "Specifies the name of the user-assigned managed identity used for dataguard."
 			}
@@ -48,10 +51,7 @@
 		},
 		"subscriptionDisplayName": {
 			"type": "string",
-			"defaultValue": "Template Created DG Subscription",
-			"allowedValues": [
-				"Template Created DG Subscription"
-			],
+			// "defaultValue": "Template Created DG Subscription",
 			"metadata": {
 				"description": "Display name for the subscription"
 			}

@@ -6,8 +6,8 @@
 #>
 param(
     [string]$TenantID,
-    [string]$SubscriptionName='Template Created DG Subscription',
-    [string]$ManagedIdentityName= 'template-created-dg-id',
+    [string]$SubscriptionName,
+    [string]$ManagedIdentityName='template-created-dg-id',
     [string]$ResourceGroupName='dataguard-resource-grp'
 )
 
@@ -40,7 +40,6 @@ if(-not $TenantID)
  } 
 
 $GraphAppId = "00000003-0000-0000-c000-000000000000"
-$ManagedIdentityName="template-created-dg-id"
 $PermissionNames = "Directory.Read.All", "UserAuthenticationMethod.Read.All"
 
 # Install the module if needed: Install-Module AzureAD

@@ -36,6 +36,7 @@ Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deployt
 1. Tenant id for Active directory
 
 Run [this script](scripts/configure-ad-settings.ps1) to assign AD read roles to the managed identity and configure archiving of AD audit events.
+`./configure-ad-settings.ps1 -TenantID '<your tenant id here>' -SubscriptionName '<Template Created DG Subscription>' -ManagedIdentityName <template-created-dg-id> -ResourceGroupName <dataguard-resource-grp>`
 
 ## Launch Dataguard VM 
 
