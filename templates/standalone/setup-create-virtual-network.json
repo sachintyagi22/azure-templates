@@ -25,7 +25,7 @@
 	},
 	"variables": {
 		"nestedCreateVirtualNetwork": "virtual-network-deployment",
-		"vnetName": "dataguard-vnet",
+		"vnetName": "dataguard-vnet"
 	},
 	"resources": [
 		{
