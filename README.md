@@ -16,9 +16,16 @@ Therefore the deploy to azure button points to the public copy of this repo on G
     * Invoice Section Id
     * Subscription Ids for which activities are to be monitored by Dataguard
 
+| Step | Description | ARM Template |
+|------| ------------| ------------ |
+| Create a dataguard subscription | Creates a new dataguard subscription. This step can be skipped if a suitable subscription already exists. In either case note down the id for subscription created above (or existing) and use it to deploy the following template into that subscription.| [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fstandalone%2Fsetup-create-dataguard-subscription.json)|
+| Create a resource group | Create a resource group in the above subscription | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fstandalone%2Fsetup-create-dataguard-resource-grp.json)
+| Setup dataguard subscription | Creates resource group in the subscription, creates a managed identity and assign it appropriate roles, creates a VNet, subnets, and a storage accounts and configures activity logs to storage account. | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fstandalone%2Fsetup-dataguard-subscription.json)
+
+
 Create a dataguard subscription (skip if already created): [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-create-dataguard-subscription.json)
 
-Note down the subscription Id and use it to deploy the following template into that subscription.
+Note down the id for subscription created above (or existing) and use it to deploy the following template into that subscription.
 
 Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
 
