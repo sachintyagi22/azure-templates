@@ -124,7 +124,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-resource-group.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-dataguard-resource-group.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -202,7 +202,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-dataguard-identity.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-dataguard-identity.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -275,7 +275,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/assign-contributor-role-to-sub.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/assign-contributor-role-to-sub.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -329,7 +329,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/assign-reader-role-to-root-group.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/assign-reader-role-to-root-group.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -411,7 +411,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-virtual-network.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-virtual-network.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -494,7 +494,7 @@
 									}
 								},
 								"templateLink": {
-									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-storage-accnt.json",
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-pvt-storage-accnt.json",
 									"contentVersion": "1.0.0.0"
 								}
 							}
@@ -516,7 +516,7 @@
 									}
 								},
 								"templateLink": {
-									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-private-dns-zone.json",
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-private-dns-zone.json",
 									"contentVersion": "1.0.0.0"
 								}
 							}
@@ -640,7 +640,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-pvt-ep-blob.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-pvt-ep-blob.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
@@ -705,7 +705,7 @@
 									}
 								},
 								"templateLink": {
-									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-diagnostic-setting-for-mgm-grp.json",
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-diagnostic-setting-for-mgm-grp.json",
 									"contentVersion": "1.0.0.0"
 								}
 							}
@@ -781,7 +781,7 @@
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/main/templates/create-bastion.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-bastion.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}

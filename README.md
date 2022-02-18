@@ -9,7 +9,7 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 
 ### Prerequisites
 1. A user with `AAD Global Administrators` to deploy this template.
-2. Follow the steps [here](https://github.com/Azure/Enterprise-Scale/blob/main/docs/EnterpriseScale-Setup-azure.md) to configure deploying user's permissions for ARM tenant deployment.
+2. Follow the steps [here](https://github.com/Azure/Enterprise-Scale/blob/individual/docs/EnterpriseScale-Setup-azure.md) to configure deploying user's permissions for ARM tenant deployment.
 3. Follow [these steps](#how-to-get-billing-account-name) collect the following information from your Azure environment as it will be used in the deployment:
     * Billing Account Id 
     * Billing Profile Id
@@ -20,54 +20,17 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 |------| ------------| ------------ |
 | Create a dataguard subscription | Creates a new dataguard subscription. This step can be skipped if a suitable subscription already exists. In either case note down the id for subscription created above (or existing) and use it to deploy the following template into that subscription.| [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-dataguard-subscription.json)|
 | Create a resource group | Create a resource group in the above subscription | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-dataguard-resource-grp.json)
-| Setup dataguard subscription | Creates resource group in the subscription, creates a managed identity and assign it appropriate roles, creates a VNet, subnets, and a storage accounts and configures activity logs to storage account. | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-dataguard-subscription.json)
-
-
-Create a dataguard subscription (skip if already created): [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-create-dataguard-subscription.json)
-
-Note down the id for subscription created above (or existing) and use it to deploy the following template into that subscription.
-
-Now set up the dataguard environment: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fsetup-dataguard-subscription.json)
-
-### What this deployment will do
-1. Create a new dataguard subscription. 
-2. Create a managed identity and 
-    * Subscription contributor role on the data guard subscription
-    * Reader role at the root tenant group
-3. Create a VNet in the dataguard subscription.
-4. Create a storage account in the subscription without public access.
-    * Create a private endpoint from the VNet
-5. Configure subscription level log diagnostic settings to push the activity logs data to dataguard storage account
-6. Configure any resource logs (that need to be analyzed by the dataguard) diagnostic settings to make it available to dataguard storage account.
-7. Create a bastion host in the public subnet to connect to the VMs in the VNet.
-
-## Configure read settings on Active Directory
-
-### Prerequisites
-1. Tenant id for Active directory
-
-Run [this script](scripts/configure-ad-settings.ps1) to assign AD read roles to the managed identity and configure archiving of AD audit events.
-`./configure-ad-settings.ps1 -TenantID '<your tenant id here>' -SubscriptionName '<Template Created DG Subscription>' -ManagedIdentityName <template-created-dg-id> -ResourceGroupName <dataguard-resource-grp>`
-
-## Launch Dataguard VM 
-
-### Prerequisites
-1. The dataguard environmet set up must be already completed. If not, follow the steps above.
-2. When launching dataguard VMs choose the dataguard subscription name and resource group name specified while setting up the environment.
-3. Generate SSH Key pair for the VM. Follow steps outlined [here](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys)
-
-Launch VM: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Fmain%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
-
-### What this deployment will do
-1. Create a new VM in the dataguard subscription within the dataguard VNet. 
-
-
-## What these templates do NOT do
-1. Install dataguard services on the VMs.
-
-For this we can use our existing workflows for AWS/GCP.
-
-To connect to VM in the dataguard VNet, follow these [steps](https://docs.microsoft.com/en-us/azure/bastion/bastion-connect-vm-ssh-linux)
+| Create a managed identity | Create a managed identity in the dataguard subscription and assign it the contributor role for the dataguard subscription| [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-managed-id-assign-contrib.json)
+| Assign reader role to MI for ALL other subscriptions (Recommended) | Assign reader role to dataguard managed identity to read resource level information for all other subscriptions in the account. NOTE: this only give read access for control plane data (`actions`) and not any data plane access (`data actions`).| [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-assign-reader-at-root.json)
+| Assigne reader role to MI for SELECTED subscriptions (Optional) | Assign reader role to dataguard managed identity to read resource level information for selected subscriptions in the account. NOTE: this only give read access for control plane data (`actions`) and not any data plane access (`data actions`).| [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-assign-reader-at-subscriptions.json)
+| Create a Virtual Network | Create a virtual network where dataguard VM and Bastion host will live | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-virtual-network.json)
+| Create a private storage account | Create a storage account in dataguard subscription and a private endpoint to it from the dataguard VNet | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-storage-account.json)
+| Create activity logs diagnostics settings for subscriptions | Activity logs allow dataguard to keep itself updated on the activities happening at the control plane level (resource creation, updation, deletion etc). For internal resource level view enable resource log diagnostics for inidividual resources | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-subs-diagnostics.json)
+| Create a bastion host in dataguard VNet | Create a bastion host in dataguard VNet | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-create-bastion.json)
+| Create a VM for Dataguard services | Create a VM for Dataguard services. Generate SSH Key pair for the VM. Follow steps outlined [here](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys) | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
+| Assign AD read permission to dataguard managed ID | Run [this script](scripts/configure-ad-settings.ps1) to assign AD read roles to the managed identity and configure archiving of AD audit events. (Optionally use portal to assign permissions.)
+`./configure-ad-settings.ps1 -TenantID '<your tenant id here>' -SubscriptionName '<Template Created DG Subscription>' -ManagedIdentityName <template-created-dg-id> -ResourceGroupName <dataguard-resource-grp>` | . |
+| Create a symmetry guest user / app credentials for administrative access to the subscription. | This user is needed so that dataguard services can be deployed and administered in the dataguard VNet/VMs. | . |
 
 ## How to Get Billing Account Name
 1. [Signin](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-7.1.0) with Azure Powershell (signin user should have access to billing information).

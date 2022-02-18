@@ -15,22 +15,22 @@
 				"description": "Resource group name for dataguard."
 			}
 		},
-		"location": {
-			"type": "string",
-			"defaultValue": "EastUs",
+        "bastionSubnetId": {
+            "type": "string",
+			// "defaultValue": "dataguard-resource-grp",
 			"metadata": {
-				"description": "The Azure location where the managed identity should be created."
+				"description": "Bastion subnet id in dataguard VNet."
 			}
-		}
+        }
 	},
 	"variables": {
-		"nestedCreateResourceGroupDeployment": "[format('create-resource-group-{0}', parameters('resourceGroupName'))]"
+		"nestedCreateBastionDeployment": "create-bastion"
 	},
 	"resources": [
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "[variables('nestedCreateResourceGroupDeployment')]",
+			"name": "[variables('nestedCreateBastionDeployment')]",
 			"location": "[deployment().location]",
 			"properties": {
 				"expressionEvaluationOptions": {
@@ -38,14 +38,14 @@
 				},
 				"mode": "Incremental",
 				"parameters": {
+					"subscriptionId": {
+						"value": "[parameters('subscriptionId')]"
+					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
 					},
-					"location": {
-						"value": "[parameters('location')]"
-					},
-					"subscriptionId": {
-						"value": "[parameters('subscriptionId')]"
+					"bastionSubnetId": {
+						"value": "[parameters('bastionSubnetId')]"
 					}
 				},
 				"template": {
@@ -60,40 +60,32 @@
 						},
 						"resourceGroupName": {
 							"type": "string",
-							"defaultValue": "dataguard-resource-grp",
 							"metadata": {
-								"description": "Name of the resourceGroup, will be created in the same location as the deployment."
+								"description": "resource group name"
 							}
 						},
-						"location": {
-							"type": "string",
-							"defaultValue": "[deployment().location]",
-							"metadata": {
-								"description": "Location for the deployments and the resources"
-							}
+						"bastionSubnetId": {
+							"type": "string"
 						}
 					},
 					"resources": [{
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
-						"name": "[format('create-{0}', parameters('resourceGroupName'))]",
+						"name": "create-bastion",
+						"resourceGroup": "[parameters('resourceGroupName')]",
 						"subscriptionId": "[parameters('subscriptionId')]",
-						"location": "[deployment().location]",
 						"properties": {
 							"expressionEvaluationOptions": {
 								"scope": "inner"
 							},
 							"mode": "Incremental",
 							"parameters": {
-								"resourceGroupName": {
-									"value": "[parameters('resourceGroupName')]"
-								},
-								"location": {
-									"value": "[parameters('location')]"
+								"subnetId": {
+									"value": "[parameters('bastionSubnetId')]"
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-dataguard-resource-group.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-bastion.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}

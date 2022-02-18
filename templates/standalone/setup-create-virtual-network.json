@@ -24,13 +24,14 @@
 		}
 	},
 	"variables": {
-		"nestedCreateResourceGroupDeployment": "[format('create-resource-group-{0}', parameters('resourceGroupName'))]"
+		"nestedCreateVirtualNetwork": "virtual-network-deployment",
+		"vnetName": "dataguard-vnet",
 	},
 	"resources": [
 		{
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2019-10-01",
-			"name": "[variables('nestedCreateResourceGroupDeployment')]",
+			"name": "[variables('nestedCreateVirtualNetwork')]",
 			"location": "[deployment().location]",
 			"properties": {
 				"expressionEvaluationOptions": {
@@ -38,20 +39,29 @@
 				},
 				"mode": "Incremental",
 				"parameters": {
+					"vnetName": {
+						"value": "[variables('vnetName')]"
+					},
+					"subscriptionId": {
+						"value": "[parameters('subscriptionId')]"
+					},
 					"resourceGroupName": {
 						"value": "[parameters('resourceGroupName')]"
 					},
 					"location": {
 						"value": "[parameters('location')]"
-					},
-					"subscriptionId": {
-						"value": "[parameters('subscriptionId')]"
 					}
 				},
 				"template": {
 					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
 					"contentVersion": "1.0.0.0",
 					"parameters": {
+						"vnetName": {
+							"type": "string",
+							"metadata": {
+								"description": "dataguard identity"
+							}
+						},
 						"subscriptionId": {
 							"type": "string",
 							"metadata": {
@@ -60,44 +70,53 @@
 						},
 						"resourceGroupName": {
 							"type": "string",
-							"defaultValue": "dataguard-resource-grp",
 							"metadata": {
-								"description": "Name of the resourceGroup, will be created in the same location as the deployment."
+								"description": "resource group name"
 							}
 						},
 						"location": {
-							"type": "string",
-							"defaultValue": "[deployment().location]",
-							"metadata": {
-								"description": "Location for the deployments and the resources"
-							}
+							"type": "string"
 						}
 					},
 					"resources": [{
 						"type": "Microsoft.Resources/deployments",
 						"apiVersion": "2019-10-01",
-						"name": "[format('create-{0}', parameters('resourceGroupName'))]",
+						"name": "[format('create-{0}', parameters('vnetName'))]",
+						"resourceGroup": "[parameters('resourceGroupName')]",
 						"subscriptionId": "[parameters('subscriptionId')]",
-						"location": "[deployment().location]",
 						"properties": {
 							"expressionEvaluationOptions": {
 								"scope": "inner"
 							},
 							"mode": "Incremental",
 							"parameters": {
-								"resourceGroupName": {
-									"value": "[parameters('resourceGroupName')]"
+								"vnetName": {
+									"value": "[parameters('vnetName')]"
 								},
 								"location": {
 									"value": "[parameters('location')]"
 								}
 							},
 							"templateLink": {
-								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-dataguard-resource-group.json",
+								"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/individual/templates/create-virtual-network.json",
 								"contentVersion": "1.0.0.0"
 							}
 						}
-					}]
+					}],
+					"outputs": {
+						"vnetId": {
+							"type": "string",
+							"value": "[reference(format('create-{0}', parameters('vnetName'))).outputs.vnetId.value]"
+						},
+						"defaultSubnetId": {
+							"type": "string",
+							"value": "[reference(format('create-{0}', parameters('vnetName'))).outputs.defaultSubnetId.value]"
+						},
+						"bastionSubnetId": {
+							"type": "string",
+							"value": "[reference(format('create-{0}', parameters('vnetName'))).outputs.bastionSubnetId.value]"
+						}
+					}
 				}
 			}
 		}
