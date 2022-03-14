@@ -5,7 +5,7 @@
      "mspOfferName": {
       "type": "string",
       "metadata": {
-       "description": "Specify a unique name for your offer"
+       "description": "Specify a unique name for your offer!"
       },
       "defaultValue": "Dataguard Lighthouse Test"
      },
