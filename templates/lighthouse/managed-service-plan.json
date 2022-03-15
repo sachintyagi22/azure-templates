@@ -44,7 +44,14 @@
 					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
 					"roleDefinitionId": "056cd41c-7e88-42e1-933e-88ba6a50c9c3",
 					"principalIdDisplayName": "test-lighthouse-group"
+				},
+				{
+					// for sql contributor
+					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+					"roleDefinitionId": "6d8ee4ec-f05a-4a1d-8b00-a9b17e38b437",
+					"principalIdDisplayName": "test-lighthouse-group"
 				}
+				
 			]
 		}
 	},
