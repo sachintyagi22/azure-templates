@@ -68,4 +68,4 @@ Azure subscription 3             xxxxaaaa-bbbb-cccc-dddd-aaaa11111113 aaaaaaaa-b
 2. [link](https://stackoverflow.com/questions/63478559/how-to-deploy-arm-template-with-user-managed-identity-and-assign-a-subscription)
 
 
-Lighhouse: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Flighthouse%2Ftemplates%2Flighthouse%2Fbase.json)
+Lighhouse: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Flighthouse%2Ftemplates%2Flighthouse%2Fmanaged-service-plan.json)
