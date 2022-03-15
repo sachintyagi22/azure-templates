@@ -1,0 +1,133 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"subscriptionsToMonitor": {
+			"type": "array", 
+			// "defaultValue": ["638dc5e8-9d48-485c-96f6-877ba307584e","6aa465aa-0075-40bc-a8da-cc33ef685b94", "ba296500-8b0a-4ca7-abff-1293cdd059eb", "a8bffe63-913d-401d-afd6-1f8a9b93787b"]
+			"defaultValue": ["replace sub id 1 here", "replace sub id 2 here etc."]
+		}
+	},
+	"variables": {
+		"createManagedServicePlansDeployment": "[format('create-Managed-Service-Plans-Deployment')]"
+	},
+	"resources": [
+		{
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2019-10-01",
+			"name": "[concat(variables('createManagedServicePlansDeployment'), '-', copyIndex())]",
+			"location": "[deployment().location]",
+			"properties": {
+				"expressionEvaluationOptions": {
+					"scope": "inner"
+				},
+				"mode": "Incremental",
+				"parameters": {
+					// "mspOfferName": {
+					// 	"value": "[parameters('mspOfferName')]"
+					// },
+					// "mspOfferDescription": {
+					// 	"value": "[parameters('mspOfferDescription')]"
+					// },
+					// "managedByTenantId": {
+					// 	"value": "[parameters('managedByTenantId')]"
+					// },
+					// "authorizations": {
+					// 	"value": "[parameters('authorizations')]"
+					// },
+					"subscriptionId": {
+						"value": "[parameters('subscriptionsToMonitor')[copyIndex()]]"
+					}
+				},
+				"template": {
+					"$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+					"contentVersion": "1.0.0.0",
+					"parameters": {
+						"mspOfferName": {
+							"type": "string",
+							"metadata": {
+								"description": "Specify a unique name for your offer!"
+							},
+							"defaultValue": "Dataguard Lighthouse Test"
+						},
+						"mspOfferDescription": {
+							"type": "string",
+							"metadata": {
+								"description": "Name of the Managed Service Provider offering"
+							},
+							"defaultValue": "Test ARM Template for dataguard deployment through Lighthouse"
+						},
+						"managedByTenantId": {
+							"type": "string",
+							"metadata": {
+								"description": "Specify the tenant id of the Managed Service Provider"
+							},
+							"defaultValue": "938e7f1c-a9cc-47d3-897f-a12d33bf6c38"
+						},
+						"authorizations": {
+							"type": "array",
+							"metadata": {
+								"description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, a Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory and the principalIdDisplayName is visible to customers."
+							},
+							"defaultValue": [{
+									"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+									"roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+									"principalIdDisplayName": "test-lighthouse-group"
+								},
+								{
+									"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+									"roleDefinitionId": "92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+									"principalIdDisplayName": "test-lighthouse-group"
+								}
+							]
+						},
+						"subscriptionId":{
+							"type": "string"
+						}
+					},
+					"resources": [
+						{
+							"type": "Microsoft.Resources/deployments",
+							"apiVersion": "2019-10-01",
+							"name": "create-managed-service-plan-for-subscription",
+							"location": "[deployment().location]",
+							"subscriptionId": "[parameters('subscriptionId')]",
+							"properties": {
+								"expressionEvaluationOptions": {
+									"scope": "inner"
+								},
+								"mode": "Incremental",
+								"parameters": {
+									"mspOfferName": {
+										"value": "[parameters('mspOfferName')]"
+									},
+									"mspOfferDescription": {
+										"value": "[parameters('mspOfferDescription')]"
+									},
+									"managedByTenantId": {
+										"value": "[parameters('managedByTenantId')]"
+									},
+									"authorizations": {
+										"value": "[parameters('authorizations')]"
+									},
+									"subscriptionId": {
+										"value": "[parameters('subscriptionId')]"
+									}
+								},
+								"templateLink": {
+									"uri": "https://raw.githubusercontent.com/sachintyagi22/azure-templates/lighthouse/templates/lighthouse/managed-service-plan.json",
+									"contentVersion": "1.0.0.0"
+								}
+							}
+						}
+					]
+
+				}
+			},
+			"copy": {
+				"name": "subscriptionsToMonitorcopy",
+				"count": "[length(parameters('subscriptionsToMonitor'))]"
+			}
+		}
+	]
+}
