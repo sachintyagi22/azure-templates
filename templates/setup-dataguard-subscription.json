@@ -58,9 +58,10 @@
 		"nestedCreateBastionDeployment": "create-bastion"
 	},
 	"resources": [
-		{ // add this resource to the resources section in the mainTemplate.json
+		{
 			"apiVersion": "2020-06-01",
-			"name": "pid-187b466a-e448-46dc-840b-e663ce1a9bf3", // use your generated GUID here
+			"name": "pid-187b466a-e448-46dc-840b-e663ce1a9bf3",
+			"location": "[deployment().location]",
 			"type": "Microsoft.Resources/deployments",
 			"properties": {
 				"mode": "Incremental",
