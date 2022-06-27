@@ -29,25 +29,25 @@
 				"description": "Specify an array of objects, containing tuples of Azure Active Directory principalId, a Azure roleDefinitionId, and an optional principalIdDisplayName. The roleDefinition specified is granted to the principalId in the provider's Active Directory and the principalIdDisplayName is visible to customers."
 			},
 			"defaultValue": [{
-					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+					"principalId": "df9187fa-f0ee-4da9-b377-427190e451e5",
 					"roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
 					"principalIdDisplayName": "test-lighthouse-group"
 				},
 				{
 					// For log diagnostics contributor
-					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+					"principalId": "df9187fa-f0ee-4da9-b377-427190e451e5",
 					"roleDefinitionId": "92aaf0da-9dab-42b6-94a3-d43ce8d16293",
 					"principalIdDisplayName": "test-lighthouse-group"
 				},
 				{
 					// for sql security Manager
-					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+					"principalId": "df9187fa-f0ee-4da9-b377-427190e451e5",
 					"roleDefinitionId": "056cd41c-7e88-42e1-933e-88ba6a50c9c3",
 					"principalIdDisplayName": "test-lighthouse-group"
 				},
 				{
 					// for sql contributor
-					"principalId": "c87557fc-cc09-4eaa-959a-a160bd9d491d",
+					"principalId": "df9187fa-f0ee-4da9-b377-427190e451e5",
 					"roleDefinitionId": "6d8ee4ec-f05a-4a1d-8b00-a9b17e38b437",
 					"principalIdDisplayName": "test-lighthouse-group"
 				}
