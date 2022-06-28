@@ -27,7 +27,7 @@
 			"roleDefinitionId": "[variables('blobReaderForSubRoleDefinitionId')]",
 			"principalId": "[parameters('identityId')]",
 			"scope": "[variables('subscriptionScope')]",
-			"principalType": "Application"
+			"principalType": "ServicePrincipal"
 		}
 	},
 	{
@@ -38,7 +38,7 @@
 			"roleDefinitionId": "[variables('cosmosReaderForSubRoleDefinitionId')]",
 			"principalId": "[parameters('identityId')]",
 			"scope": "[variables('subscriptionScope')]",
-			"principalType": "Application"
+			"principalType": "ServicePrincipal"
 		}
 	}]
 }

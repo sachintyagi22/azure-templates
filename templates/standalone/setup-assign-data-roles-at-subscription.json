@@ -15,7 +15,7 @@
 		}
 	},
 	"variables": {
-		"nestedIdentityOtherReaderRoleAssignmentDeployment": "[format('assign-other-sub-reader-role-to-dg-id')]"
+		"nestedIdentityOtherReaderRoleAssignmentDeployment": "[format('assign-data-roles-to-dg-app-id')]"
 	},
 	"resources": [
 		{
