@@ -45,7 +45,7 @@ Therefore the deploy to azure button points to the public copy of this repo on G
 | Create a VM for Dataguard services | Create a VM for Dataguard services. Generate SSH Key pair for the VM. Follow steps outlined [here](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys) | [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fcreate-vm-in-a-vnet.json)
 
 For Olympus:
-Assign blob data reader and cosmos data reader roles at subscription level to the dataguard application identity: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fsetup-assign-data-roles-at-subscription.json)
+Assign blob data reader and cosmos data reader roles at subscription level to the dataguard application identity: [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsachintyagi22%2Fazure-templates%2Findividual%2Ftemplates%2Fstandalone%2Fsetup-assign-data-roles-at-subscription.json)
 
 ## How to Get Billing Account Name
 1. [Signin](https://docs.microsoft.com/en-us/powershell/azure/authenticate-azureps?view=azps-7.1.0) with Azure Powershell (signin user should have access to billing information).
