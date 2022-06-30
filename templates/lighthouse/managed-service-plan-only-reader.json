@@ -7,14 +7,14 @@
 			"metadata": {
 				"description": "Specify a unique name for your offer!"
 			},
-			"defaultValue": "Dataguard Lighthouse Test"
+			"defaultValue": "Dataguard Lighthouse"
 		},
 		"mspOfferDescription": {
 			"type": "string",
 			"metadata": {
 				"description": "Name of the Managed Service Provider offering"
 			},
-			"defaultValue": "Test ARM Template for dataguard deployment through Lighthouse"
+			"defaultValue": "ARM Template for dataguard deployment through Lighthouse"
 		},
 		"managedByTenantId": {
 			"type": "string",
@@ -31,7 +31,7 @@
 			"defaultValue": [{
 					"principalId": "df9187fa-f0ee-4da9-b377-427190e451e5",
 					"roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7",
-					"principalIdDisplayName": "test-lighthouse-group"
+					"principalIdDisplayName": "lighthouse-group"
 				}
 				
 			]
