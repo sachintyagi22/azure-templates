@@ -17,15 +17,21 @@
 		},
 		"location": {
 			"type": "string",
-			"defaultValue": "EastUs",
+			"defaultValue": "EastUs2",
 			"metadata": {
 				"description": "The Azure location where the managed identity should be created."
+			}
+		},
+		"vnetName":{
+			"type": "string",
+			"defaultValue": "dataguard-vnet",
+			"metadata": {
+				"description": "The Azure VNet name."
 			}
 		}
 	},
 	"variables": {
-		"nestedCreateVirtualNetwork": "virtual-network-deployment",
-		"vnetName": "dataguard-vnet"
+		"nestedCreateVirtualNetwork": "[format('virtual-network-deployment', parameters('vnetName'))]"
 	},
 	"resources": [
 		{

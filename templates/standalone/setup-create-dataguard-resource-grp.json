@@ -17,7 +17,7 @@
 		},
 		"location": {
 			"type": "string",
-			"defaultValue": "EastUs",
+			"defaultValue": "EastUs2",
 			"metadata": {
 				"description": "The Azure location where the managed identity should be created."
 			}
