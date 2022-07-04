@@ -46,7 +46,7 @@
 				"mode": "Incremental",
 				"parameters": {
 					"vnetName": {
-						"value": "[variables('vnetName')]"
+						"value": "[parameters('vnetName')]"
 					},
 					"subscriptionId": {
 						"value": "[parameters('subscriptionId')]"
