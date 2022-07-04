@@ -24,7 +24,7 @@
         }
 	},
 	"variables": {
-		"nestedCreateBastionDeployment": "create-bastion"
+		"nestedCreateBastionDeployment": "[format('create-bastion-{0}','deployment']"
 	},
 	"resources": [
 		{

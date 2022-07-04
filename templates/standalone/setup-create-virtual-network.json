@@ -17,7 +17,7 @@
 		},
 		"location": {
 			"type": "string",
-			"defaultValue": "EastUs2",
+			"defaultValue": "EastUs",
 			"metadata": {
 				"description": "The Azure location where the managed identity should be created."
 			}
@@ -31,7 +31,7 @@
 		}
 	},
 	"variables": {
-		"nestedCreateVirtualNetwork": "[format('virtual-network-deployment-{0}', parameters('vnetName'))]"
+		"nestedCreateVirtualNetwork": "[format('virtual-network-deployment-{0}', 'deployment']"
 	},
 	"resources": [
 		{

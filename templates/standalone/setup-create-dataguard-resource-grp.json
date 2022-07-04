@@ -17,14 +17,14 @@
 		},
 		"location": {
 			"type": "string",
-			"defaultValue": "EastUs2",
+			"defaultValue": "EastUs",
 			"metadata": {
 				"description": "The Azure location where the managed identity should be created."
 			}
 		}
 	},
 	"variables": {
-		"nestedCreateResourceGroupDeployment": "[format('create-resource-group-{0}', parameters('resourceGroupName'))]"
+		"nestedCreateResourceGroupDeployment": "[format('create-resource-group-{0}', 'deployment'))]"
 	},
 	"resources": [
 		{
