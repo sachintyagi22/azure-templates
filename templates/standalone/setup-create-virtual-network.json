@@ -31,7 +31,7 @@
 		}
 	},
 	"variables": {
-		"nestedCreateVirtualNetwork": "[format('virtual-network-deployment', parameters('vnetName'))]"
+		"nestedCreateVirtualNetwork": "[format('virtual-network-deployment-{0}', parameters('vnetName'))]"
 	},
 	"resources": [
 		{
@@ -65,7 +65,7 @@
 						"vnetName": {
 							"type": "string",
 							"metadata": {
-								"description": "dataguard identity"
+								"description": "dataguard vnet name"
 							}
 						},
 						"subscriptionId": {
