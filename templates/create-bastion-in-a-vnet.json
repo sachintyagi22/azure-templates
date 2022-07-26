@@ -35,7 +35,7 @@
     },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', 'dataguard-vnet')]",
-        "subnetRef": "[concat(variables('vnetId'),'/subnets/default')]",
+        "subnetRef": "[concat(variables('vnetId'),'/subnets/public-subnet')]",
         "networkInterfaceName": "[concat(parameters('vmName'), '-', 'network-intr-face')]",
         "networkSecurityGroupName": "[concat(parameters('vmName'), '-', 'nsg')]",
         "publicIpAddressName": "[concat(parameters('vmName'), '-', 'ip')]",
