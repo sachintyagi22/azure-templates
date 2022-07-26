@@ -25,19 +25,19 @@
 			"type": "string",
 			"defaultValue": "dataguard-nat-ip",
 			"metadata": {
-				"description": "The DataGuard nat public ip name."
+				"description": "NAT Public IP name."
 			}
         },
         "natgatewayname": {
 			"type": "string",
 			"defaultValue": "dataguard-nat-gw",
 			"metadata": {
-				"description": "The DatGuard nat gw name."
+				"description": "NAT GW name."
 			}
         }
 	},
 	"variables": {
-		"nestedCreateVirtualNetwork": "virtual-network-deployment",
+		"nestedCreateVirtualNetwork": "[format('assign-root-reader-role-{0}', parameters('identityId'))]",
 		"vnetName": "dataguard-vnet"
 	},
 	"resources": [
@@ -68,7 +68,7 @@
 						"value": "[parameters('publicipname')]"
 					},
 					"natgatewayname": {
-						"value": "[parameters('natgatewaynamepublicipname')]"
+						"value": "[parameters('natgatewayname')]"
 					}
 
 				},
