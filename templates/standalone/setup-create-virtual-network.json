@@ -37,7 +37,7 @@
         }
 	},
 	"variables": {
-		"nestedCreateVirtualNetwork": "[format('assign-root-reader-role-{0}', parameters('identityId'))]",
+		"nestedCreateVirtualNetwork": "[format('setup-id-{0}', 'vnet')]",
 		"vnetName": "dataguard-vnet"
 	},
 	"resources": [
