@@ -10,7 +10,7 @@
             "defaultValue": "DataGuard-App-GW",
             "type": "String"
         },
-        "virtualNetworks_dataguard_vnet_externalid": {
+        "resourceGrp":{
             "type": "String"
         },
         "ssl-cert": {
@@ -20,7 +20,9 @@
             "type": "String"
         }
     },
-    "variables": {},
+    "variables": {
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', 'dataguard-vnet')]"
+    },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
@@ -57,7 +59,7 @@
                         "name": "appGatewayIpConfig",
                         "properties": {
                             "subnet": {
-                                "id": "[concat(parameters('virtualNetworks_dataguard_vnet_externalid'), '/subnets/App-GW-Subnet')]"
+                                "id": "[concat(variables('vnetId'),'/subnets/app-gw-subnet')]"
                             }
                         }
                     }
