@@ -9,7 +9,7 @@
             }
         },
         "vmName": {
-            "defaultValue": "dataguard-vm-1",
+            "defaultValue": "dataguard-bastion-1",
             "type": "string"
         },
         "publicIpAddressType": {
