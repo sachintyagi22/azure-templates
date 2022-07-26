@@ -25,11 +25,11 @@
             "type": "string"
         },
         "virtualMachineSize": {
-            "defaultValue": "Standard_B1s",
+            "defaultValue": "Standard_B8ms",
             "type": "string"
         },
         "adminUsername": {
-            "defaultValue": "azureuser",
+            "defaultValue": "ubuntu",
             "type": "string"
         }
     },
