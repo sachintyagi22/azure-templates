@@ -65,10 +65,10 @@
 						"value": "[parameters('location')]"
 					},
 					"publicipname": {
-						"value": "[parameters('location')]"
+						"value": "[parameters('publicipname')]"
 					},
 					"natgatewayname": {
-						"value": "[parameters('location')]"
+						"value": "[parameters('natgatewayname')]"
 					}
 
 				},
@@ -98,10 +98,10 @@
 							"type": "string"
 						},
 						"publicipname": {
-							"value": "[parameters('location')]"
+							"value": "[parameters('publicipname')]"
 						},
 						"natgatewayname": {
-							"value": "[parameters('location')]"
+							"value": "[parameters('natgatewayname')]"
 						}
 					},
 					"resources": [{
@@ -123,10 +123,10 @@
 									"value": "[parameters('location')]"
 								},
 								"publicipname": {
-									"value": "[parameters('location')]"
+									"value": "[parameters('publicipname')]"
 								},
 								"natgatewayname": {
-									"value": "[parameters('location')]"
+									"value": "[parameters('natgatewayname')]"
 								}
 							},
 							"templateLink": {
