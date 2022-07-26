@@ -10,9 +10,6 @@
             "defaultValue": "DataGuard-App-GW",
             "type": "String"
         },
-        "resourceGrp":{
-            "type": "String"
-        },
         "ssl-cert": {
             "type": "String"
         },
