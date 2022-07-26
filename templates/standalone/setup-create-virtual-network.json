@@ -68,7 +68,7 @@
 						"value": "[parameters('publicipname')]"
 					},
 					"natgatewayname": {
-						"value": "[parameters('natgatewayname')]"
+						"value": "[parameters('natgatewaynamepublicipname')]"
 					}
 
 				},
@@ -98,10 +98,16 @@
 							"type": "string"
 						},
 						"publicipname": {
-							"value": "[parameters('publicipname')]"
+							"type": "string",
+							"metadata": {
+								"description": "public ip name"
+							}
 						},
 						"natgatewayname": {
-							"value": "[parameters('natgatewayname')]"
+							"type": "string",
+							"metadata": {
+								"description": "nat gw name"
+							}
 						}
 					},
 					"resources": [{
