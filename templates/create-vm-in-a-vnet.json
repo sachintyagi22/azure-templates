@@ -17,7 +17,7 @@
             "type": "string"
         },
         "publicIpAddressSku": {
-            "defaultValue":"Standard",
+            "defaultValue":"Basic",
             "type": "string"
         },
         "osDiskType": {
@@ -59,10 +59,7 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
-                            }
+                            "privateIPAllocationMethod": "Dynamic"
                         }
                     }
                 ],
