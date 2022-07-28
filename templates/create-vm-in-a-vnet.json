@@ -17,7 +17,7 @@
             "type": "string"
         },
         "publicIpAddressSku": {
-            "defaultValue":"Basic",
+            "defaultValue":"Standard",
             "type": "string"
         },
         "osDiskType": {
