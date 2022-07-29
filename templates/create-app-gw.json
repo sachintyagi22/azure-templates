@@ -11,7 +11,7 @@
             "type": "String"
         },
         "sslCertificateData": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "The base-64 encoded SSL certificate PFX data. Must be supplied via a parameters file references to a Key Vault / Secret Name."
             }
@@ -209,17 +209,6 @@
                     }
                 ],
                 "privateLinkConfigurations": [],
-                "webApplicationFirewallConfiguration": {
-                    "enabled": true,
-                    "firewallMode": "Prevention",
-                    "ruleSetType": "OWASP",
-                    "ruleSetVersion": "3.0",
-                    "disabledRuleGroups": [],
-                    "exclusions": [],
-                    "requestBodyCheck": true,
-                    "maxRequestBodySizeInKb": 128,
-                    "fileUploadLimitInMb": 100
-                },
                 "enableHttp2": true
             }
         }
