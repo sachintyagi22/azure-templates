@@ -220,11 +220,7 @@
                     "maxRequestBodySizeInKb": 128,
                     "fileUploadLimitInMb": 100
                 },
-                "enableHttp2": true,
-                "forceFirewallPolicyAssociation": true,
-                "firewallPolicy": {
-                    "id": "[parameters('ApplicationGatewayWebApplicationFirewallPolicies_DataGuard_Twingate_externalid')]"
-                }
+                "enableHttp2": true
             }
         }
     ]
