@@ -13,7 +13,7 @@
         "sslCertificateData": {
             "type": "String",
             "metadata": {
-                "description": "The base-64 encoded SSL certificate PFX data. Must be supplied via a parameters file references to a Key Vault / Secret Name."
+                "description": "The base-64 encoded SSL certificate PFX data."
             }
         },
         "sslCertificatePassword": {
@@ -147,7 +147,7 @@
                             "frontendPort": {
                                 "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_DataGuard_App_GW_name')), '/frontendPorts/port_443')]"
                             },
-                            "protocol": "Http",
+                            "protocol": "Https",
                             "sslCertificate": {
                                 "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_DataGuard_App_GW_name')), '/sslCertificates/appGwSslCertificate')]"
                             },
@@ -209,7 +209,7 @@
                     }
                 ],
                 "privateLinkConfigurations": [],
-                "enableHttp2": true
+                "enableHttp2": false
             }
         }
     ]
