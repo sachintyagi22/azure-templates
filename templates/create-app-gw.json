@@ -19,7 +19,7 @@
         "sslCertificatePassword": {
             "type": "securestring",
             "metadata": {
-                "description": "The SSL certificate password. Must be supplied via a parameters file references to a Key Vault / Secret Name."
+                "description": "The SSL certificate password."
             }
         }
     },
@@ -221,10 +221,7 @@
                     "fileUploadLimitInMb": 100
                 },
                 "enableHttp2": true,
-                "forceFirewallPolicyAssociation": true,
-                "firewallPolicy": {
-                    "id": "[parameters('ApplicationGatewayWebApplicationFirewallPolicies_DataGuard_Twingate_externalid')]"
-                }
+                "forceFirewallPolicyAssociation": false
             }
         }
     ]
