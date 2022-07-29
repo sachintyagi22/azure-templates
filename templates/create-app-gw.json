@@ -220,8 +220,7 @@
                     "maxRequestBodySizeInKb": 128,
                     "fileUploadLimitInMb": 100
                 },
-                "enableHttp2": true,
-                "forceFirewallPolicyAssociation": false
+                "enableHttp2": true
             }
         }
     ]
