@@ -10,11 +10,17 @@
             "defaultValue": "DataGuard-App-GW",
             "type": "String"
         },
-        "ssl-cert": {
-            "type": "String"
+        "sslCertificateData": {
+            "type": "string",
+            "metadata": {
+                "description": "The base-64 encoded SSL certificate PFX data. Must be supplied via a parameters file references to a Key Vault / Secret Name."
+            }
         },
-        "password": {
-            "type": "String"
+        "sslCertificatePassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The SSL certificate password. Must be supplied via a parameters file references to a Key Vault / Secret Name."
+            }
         }
     },
     "variables": {
@@ -110,13 +116,13 @@
                 ],
                 "sslCertificates": [
                     {
-                      "name": "app-gw-ssl-cert",
-                      "properties": {
-                        "data": "parameters('ssl-cert')",
-                        "password": "parameters('password')"
-                      }
+                        "name": "appGwSslCertificate",
+                        "properties": {
+                            "data": "[parameters('sslCertificateData')]",
+                            "password": "[parameters('sslCertificatePassword')]"
+                        }
                     }
-                  ],
+                ],
                 "httpListeners": [
                     {
                         "name": "http-listener",
@@ -143,7 +149,7 @@
                             },
                             "protocol": "Http",
                             "sslCertificate": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_DataGuard_App_GW_name')), '/sslCertificates/app-gw-ssl-cert')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_DataGuard_App_GW_name')), '/sslCertificates/appGwSslCertificate')]"
                             },
                             "hostNames": [],
                             "requireServerNameIndication": false
