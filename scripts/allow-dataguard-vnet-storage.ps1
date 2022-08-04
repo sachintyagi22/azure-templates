@@ -18,7 +18,10 @@ param(
 
 $disabled = @() 
 $Result=@()
-Get-AzSubscription -TenantId $tenandId | ForEach-Object {
+# $tenantId = '938e7f1c-a9cc-47d3-897f-a12d33bf6c38'
+# $subnetId = '/subscriptions/b3f51724-9bff-43e5-9a6a-23f236ff683d/resourceGroups/DataGuard_Demo_3_Grp/providers/Microsoft.Network/virtualNetworks/dataguard-vnet/subnets/private-subnet'
+
+Get-AzSubscription -TenantId $tenandId | Where-Object {$_.HomeTenantId -eq $tenantId} | ForEach-Object {
         $_ | Set-AzContext                            
         Get-AzStorageAccount | ForEach-Object {
             $storageaccount = $_

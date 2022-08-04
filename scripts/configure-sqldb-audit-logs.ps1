@@ -6,7 +6,6 @@
 #>
 param(
   [string]$tenantId, # The Tenant ID where DataGuard is deployed.
-  [string]$subnetId, # The name of the subnet in which to create service endpoint.
   [string]$dataguardSubId, # Dataguard subscription id
   [string]$StorageAccountId # The id of the dataguard storage account.
 )
