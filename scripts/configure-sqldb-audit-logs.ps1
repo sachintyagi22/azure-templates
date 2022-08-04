@@ -7,7 +7,8 @@
 param(
   [string]$tenantId, # The Tenant ID where DataGuard is deployed.
   [string]$dataguardSubId, # Dataguard subscription id
-  [string]$StorageAccountId # The id of the dataguard storage account.
+  [string]$StorageAccountId,  # The id of the dataguard storage account.
+  [string]$Region
 )
 
 # $disabled = @() 
@@ -25,7 +26,7 @@ Get-AzSubscription -TenantId $tenantId | Where-Object {$_.HomeTenantId -eq $tena
         Get-AzResourceGroup | ForEach-Object {
             $resourceGroupName = $_.ResourceGroupName
             
-            Get-AzSqlServer -ResourceGroupName $resourceGroupName | ForEach-Object {
+            Get-AzSqlServer -ResourceGroupName $resourceGroupName | Where-Object {(($_.Location -eq $Region) -or ($Region -eq $null))} | ForEach-Object {
                 Set-AzSqlServerAudit -ResourceGroupName $resourceGroupName `
                     -ServerName  $_.ServerName `
                     -BlobStorageTargetState Enabled `

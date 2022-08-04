@@ -8,7 +8,8 @@
 
 param(
     [string]$tenandId, # The Tenant ID where DataGuard is deployed.
-    [string]$StorageAccountId # The id of the dataguard storage account.
+    [string]$StorageAccountId, # The id of the dataguard storage account.
+    [string]$Region
   )
   
 $DiagnosticSettingName = "dataguard-resouce-diagnostics"
@@ -16,7 +17,7 @@ $DiagnosticSettingName = "dataguard-resouce-diagnostics"
 $disabled = @() 
 Get-AzSubscription -TenantId $tenandId | ForEach-Object {
         $_ | Set-AzContext                            
-        Get-AzStorageAccount | ForEach-Object {
+        Get-AzStorageAccount | Where-Object {((($_.Location -eq $Region) -or ($Region -eq $null)) -and ($_.Id -ne $StorageAccountId))} | ForEach-Object {
             $storageaccount = $_
             if ($storageaccount.PublicNetworkAccess -eq 'Disabled') {
                 $disabled += $storageaccount
