@@ -43,6 +43,8 @@ $GraphAppId = "00000003-0000-0000-c000-000000000000"
 $PermissionNames = "Directory.Read.All", "UserAuthenticationMethod.Read.All"
 
 # Install the module if needed: Install-Module AzureAD
+# Install-Module Microsoft.Graph -Scope CurrentUser
+# Import-Module Microsoft.Graph
 
 Connect-AzureAD -TenantId $TenantID -erroraction 'silentlycontinue'
 Write-Host "Connected to AD..."
