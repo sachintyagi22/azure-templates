@@ -52,7 +52,7 @@ def validate_cosmosdb_read(client_id, sub_id):
     assert len(databases) > 0, 'Zero databases found in a cosmos account'
     db = client.get_database_client(databases[0]['id'])
     containers = [c for c in db.list_containers()]
-    assert len(    containers = [c for c in db.list_containers()]) > 0, 'Zero containers found in a cosmos db'
+    assert len(containers = [c for c in db.list_containers()]) > 0, 'Zero containers found in a cosmos db'
         
 
 
