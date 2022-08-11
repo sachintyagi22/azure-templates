@@ -65,32 +65,34 @@ Get-AzSubscription -TenantId $tenantId | Where-Object {$_.HomeTenantId -eq $tena
             
             Get-AzCosmosDBAccount -ResourceGroupName $resourceGroupName | ForEach-Object {
                 $accountName = $_.Name
+                $accountKind = $_.Kind
                 $cosmosAccountLocation = ($_.Location -replace '\s','').ToLower()
-                $roleName = 'DataguardCosmosReadOnly'
-                $readOnlyRoleDefinition = Get-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
-                    -ResourceGroupName $resourceGroupName | Where-Object {$_.RoleName -eq $roleName} 
-                if ($readOnlyRoleDefinition -eq $null) {
-                    New-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
-                    -ResourceGroupName $resourceGroupName `
-                    -Type CustomRole -RoleName $roleName `
-                    -DataAction @( `
-                        'Microsoft.DocumentDB/databaseAccounts/readMetadata',
-                        'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read', `
-                        'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/executeQuery', `
-                        'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/readChangeFeed') `
-                    -AssignableScope "/"
+                if ($accountKind -eq 'GlobalDocumentDB') {
+                    $roleName = 'DataguardCosmosReadOnly'
+                    $readOnlyRoleDefinition = Get-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
+                        -ResourceGroupName $resourceGroupName | Where-Object {$_.RoleName -eq $roleName} 
+                    if ($readOnlyRoleDefinition -eq $null) {
+                        New-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
+                        -ResourceGroupName $resourceGroupName `
+                        -Type CustomRole -RoleName $roleName `
+                        -DataAction @( `
+                            'Microsoft.DocumentDB/databaseAccounts/readMetadata',
+                            'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read', `
+                            'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/executeQuery', `
+                            'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/readChangeFeed') `
+                        -AssignableScope "/"
+                    }
+                        
+                    $readOnlyRoleDefinition = Get-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
+                        -ResourceGroupName $resourceGroupName | Where-Object {$_.RoleName -eq $roleName} 
+                    $readOnlyRoleDefinitionId = $readOnlyRoleDefinition.Id
+                    Write-Host $readOnlyRoleDefinitionId
+                    New-AzCosmosDBSqlRoleAssignment -AccountName $accountName `
+                        -ResourceGroupName $resourceGroupName `
+                        -RoleDefinitionId $readOnlyRoleDefinitionId `
+                        -Scope "/" `
+                        -PrincipalId $DataguardIdentity
                 }
-                    
-                $readOnlyRoleDefinition = Get-AzCosmosDBSqlRoleDefinition -AccountName $accountName `
-                    -ResourceGroupName $resourceGroupName | Where-Object {$_.RoleName -eq $roleName} 
-                $readOnlyRoleDefinitionId = $readOnlyRoleDefinition.Id
-                Write-Host $readOnlyRoleDefinitionId
-                New-AzCosmosDBSqlRoleAssignment -AccountName $accountName `
-                    -ResourceGroupName $resourceGroupName `
-                    -RoleDefinitionId $readOnlyRoleDefinitionId `
-                    -Scope "/" `
-                    -PrincipalId $DataguardIdentity
-                
                 $ResourceId = $_.Id
                 $targetStorageAccountId = $location_storage_dict[$cosmosAccountLocation]
                 if ($targetStorageAccountId -eq $null) {
